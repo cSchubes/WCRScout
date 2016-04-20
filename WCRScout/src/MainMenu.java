@@ -32,29 +32,33 @@ public class MainMenu{
 		mainLayout.setBackground(new Background(back));
 		
 		menuBar = new MenuBar();
-		menuBar.setBackground(new Background(new BackgroundFill(Color.FIREBRICK, null, null)));
+		menuBar.setBackground(new Background(new BackgroundFill(Color.MAROON, null, null)));
 		file = new Menu("File");
 		edit = new Menu("Edit");
 		menuBar.getMenus().addAll(file, edit);
 		mainLayout.setTop(menuBar);
 		
 		scoutSheet = new Button("New Scout Sheet");
-		scoutSheet.setPrefSize(400, 200);
+		scoutSheet.setPrefSize(450, 200);
 		scoutSheet.setOnAction(e -> {
-			WCRScout.window.setScene(WCRScout.fieldDraw.getScene());
+			WCRScout.window.setScene(WCRScout.scoutSheet.getScene());
 			WCRScout.window.centerOnScreen();
 		});
 		
 		fieldDraw = new Button("Strategy Field");
-		fieldDraw.setPrefSize(425, 200);
+		fieldDraw.setPrefSize(450, 200);
+		fieldDraw.setOnAction(e -> {
+			WCRScout.window.setScene(WCRScout.fieldDraw.getScene());
+			WCRScout.window.centerOnScreen();
+		});
 		
 		lookup = new Button("Team Report");
-		lookup.setPrefSize(425, 200);
+		lookup.setPrefSize(450, 200);
 		
 		grid = new GridPane();
 		grid.setPadding(new Insets(100, 100, 100, 100));
 		grid.setVgap(100);
-		grid.setHgap(200);
+		grid.setHgap(180);
 		grid.add(scoutSheet, 0, 0);
 		grid.add(fieldDraw, 1, 0);
 		grid.add(lookup, 0, 1);
@@ -62,6 +66,7 @@ public class MainMenu{
 		mainLayout.setCenter(grid);
 		
 		scene = new Scene(mainLayout, 1280, 800);
+		scene.getStylesheets().add(WCRScout.class.getResource("/testC.css").toExternalForm());
 	}
 	
 	public Scene getScene(){
