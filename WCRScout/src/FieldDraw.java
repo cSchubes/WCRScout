@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -10,10 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BackgroundImage;
@@ -44,19 +42,19 @@ public class FieldDraw{
 	private Stack<ArrayList<Integer>> allYPoints;
 	private Stack<Color> lineColors;
 	
-	public static final int LEFT_POS_X = 451;
-	public static final int RIGHT_POS_X = 765;
+	public static final int LEFT_POS_X = 449;
+	public static final int RIGHT_POS_X = 761;
 	public static final int RIGHT_SIDE_LENGTH = 383;
-	public static final int LEFT_POS_ONE_Y = 492;
-	public static final int LEFT_POS_FIVE_Y = 181;
-	public static final int OBSTACLE_BACK_WIDTH = 67;
+	public static final int LEFT_POS_ONE_Y = 482;
+	public static final int LEFT_POS_FIVE_Y = 171;
+	public static final int OBSTACLE_BACK_WIDTH = 68;
 	public static final int OBSTACLE_BACK_HEIGHT = 78;
 	
 	public FieldDraw(){
 		canvas = new Canvas(1280, 800);
 		gc = canvas.getGraphicsContext2D();
 		gc.setStroke(Color.BLACK);
-		gc.setLineWidth(3);
+		gc.setLineWidth(2);
 		xpoints = new ArrayList<Integer>();
 		ypoints = new ArrayList<Integer>();
 		allXPoints = new Stack<ArrayList<Integer>>();
@@ -64,6 +62,7 @@ public class FieldDraw{
 		lineColors = new Stack<Color>();
 		canvas.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
 			public void handle(MouseEvent event) {
+				lineColors.push((Color)gc.getStroke());
 				gc.beginPath();
 				double x = event.getX();
 				double y = event.getY();
@@ -71,8 +70,6 @@ public class FieldDraw{
 				xpoints.add((int)x);
 				ypoints.add((int)y);
 				gc.stroke();
-				System.out.print(x);
-				System.out.println(y);
 			}
 		});
 		canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>(){
@@ -89,7 +86,6 @@ public class FieldDraw{
 			public void handle(MouseEvent event){
 				allXPoints.push(xpoints);
 				allYPoints.push(ypoints);
-				lineColors.push((Color)gc.getStroke());
 				xpoints = new ArrayList<Integer>();
 				ypoints = new ArrayList<Integer>();
 			}
@@ -254,6 +250,7 @@ public class FieldDraw{
 		root.setCenter(canvas);
 		root.setTop(top);
 		root.setBottom(bot);
+		root.setPadding(new Insets(10,0,0,0));
 		scene = new Scene(root, 1280, 750);
 		drawAllObstacles();
 	}
@@ -273,6 +270,15 @@ public class FieldDraw{
 			}		
 	}
 	
+	public void setSelectedColorButton(Color c){
+		for(Button b:colorButtons){
+			if(((Color)b.getBackground().getFills().get(0).getFill()).equals(c)){
+				setSelectedColorButton(b);
+			}
+		}
+		gc.setStroke(c);
+	}
+	
 	public void drawAllObstacles(){
 		for(Obstacle o:leftObstacles){
 			gc.drawImage(o.getImage(), o.getX(), o.getY());
@@ -287,7 +293,7 @@ public class FieldDraw{
 	public void drawObstacleRects(){
 		gc.setFill(Color.WHITE);
 		gc.fillRect(LEFT_POS_X, LEFT_POS_FIVE_Y, OBSTACLE_BACK_WIDTH, LEFT_POS_ONE_Y-LEFT_POS_FIVE_Y+74);
-		gc.fillRect(RIGHT_POS_X, 106, OBSTACLE_BACK_WIDTH+1, 383);
+		gc.fillRect(RIGHT_POS_X, 96, OBSTACLE_BACK_WIDTH+1, 383);
 	}
 	
 	public void clearCanvas(boolean all){
@@ -305,12 +311,17 @@ public class FieldDraw{
 	}
 	
 	public void undoMark(){
+		Color popped = Color.BLACK;
 		if(!allXPoints.isEmpty()){
 			allXPoints.pop();
 			allYPoints.pop();
-			lineColors.pop();
 			redrawLines();
+			popped = lineColors.pop();
 		}
+		if(lineColors.isEmpty())
+			setSelectedColorButton(popped);
+		else
+			setSelectedColorButton(lineColors.peek());
 	}
 	
 	public void redrawLines(){

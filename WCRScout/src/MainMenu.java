@@ -41,7 +41,7 @@ public class MainMenu{
 		
 		scoutSheet = new Button("New Scout Sheet");
 		scoutSheet.setPrefSize(450, 200);
-		scoutSheet.setFont(Font.font("Verdana", 45));
+		scoutSheet.setFont(Font.font("Verdana", 40));
 		scoutSheet.setOnAction(e -> {
 			WCRScout.window.setScene(WCRScout.scoutSheet.getScene());
 			WCRScout.window.centerOnScreen();
@@ -70,6 +70,7 @@ public class MainMenu{
 		
 		scene = new Scene(mainLayout, 1280, 750);
 		scene.getStylesheets().add(WCRScout.class.getResource("/testC.css").toExternalForm());
+		WCRScout.window.getIcons().add(logo);
 	}
 	
 	public Scene getScene(){

@@ -16,6 +16,8 @@ public class WCRScout extends Application{
 		window.setTitle("WCRScout");
 		window.centerOnScreen();
 		window.setResizable(false);
+		window.setMaxWidth(1280);
+		window.setMaxHeight(800);
 		mainMenu = new MainMenu();
 		fieldDraw = new FieldDraw();
 		scoutSheet = new ScoutSheet();
