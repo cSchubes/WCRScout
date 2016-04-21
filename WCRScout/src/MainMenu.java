@@ -14,6 +14,7 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 public class MainMenu{
 	private Scene scene;
@@ -40,6 +41,7 @@ public class MainMenu{
 		
 		scoutSheet = new Button("New Scout Sheet");
 		scoutSheet.setPrefSize(450, 200);
+		scoutSheet.setFont(Font.font("Verdana", 45));
 		scoutSheet.setOnAction(e -> {
 			WCRScout.window.setScene(WCRScout.scoutSheet.getScene());
 			WCRScout.window.centerOnScreen();
@@ -47,6 +49,7 @@ public class MainMenu{
 		
 		fieldDraw = new Button("Strategy Field");
 		fieldDraw.setPrefSize(450, 200);
+		fieldDraw.setFont(Font.font("Verdana", 50));
 		fieldDraw.setOnAction(e -> {
 			WCRScout.window.setScene(WCRScout.fieldDraw.getScene());
 			WCRScout.window.centerOnScreen();
@@ -65,7 +68,7 @@ public class MainMenu{
 		
 		mainLayout.setCenter(grid);
 		
-		scene = new Scene(mainLayout, 1280, 800);
+		scene = new Scene(mainLayout, 1280, 750);
 		scene.getStylesheets().add(WCRScout.class.getResource("/testC.css").toExternalForm());
 	}
 	

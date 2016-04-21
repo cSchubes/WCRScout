@@ -1,3 +1,6 @@
 .menu .label{
 	-fx-text-fill: white;
 }
+.choice-box{
+	-fx-font-size: 30px;
+}

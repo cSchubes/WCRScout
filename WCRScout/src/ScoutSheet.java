@@ -11,14 +11,12 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
 public class ScoutSheet {
 	private Scene scene;
 	private ScrollPane scroller;
 	private HBox top;
-	private GridPane grid;
 	private BorderPane border;
 	private Label teamNumLab;
 	private TextField teamNumber;
@@ -30,7 +28,6 @@ public class ScoutSheet {
 		top.setPadding(new Insets(10, 0, 0, 0));
 		top.getChildren().addAll(teamNumLab, teamNumber);
 		top.setAlignment(Pos.CENTER);
-		//grid = new GridPane();
 		border = new BorderPane();
 		Image back = new Image(getClass().getResourceAsStream("Complete Logo LOWQUALITY.png"));
 		BackgroundImage backImg = new BackgroundImage(back, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(247,82, false, false, true, false));
@@ -40,7 +37,7 @@ public class ScoutSheet {
 		scroller.setContent(border);
 		scroller.setFitToHeight(true);
 		scroller.setFitToWidth(true);
-		scene = new Scene(scroller, 1280, 800);
+		scene = new Scene(scroller, 1280, 750);
 	}
 	
 	public Scene getScene(){

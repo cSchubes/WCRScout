@@ -12,11 +12,10 @@ public class WCRScout extends Application{
 	}
 	
 	public void start(Stage primaryStage) throws Exception {
-		//Application.setUserAgentStylesheet(getClass().getResource("testCSS.css")
-			//	.toExternalForm());
 		window = primaryStage;
 		window.setTitle("WCRScout");
 		window.centerOnScreen();
+		window.setResizable(false);
 		mainMenu = new MainMenu();
 		fieldDraw = new FieldDraw();
 		scoutSheet = new ScoutSheet();

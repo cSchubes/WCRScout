@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Stack;
 
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -8,7 +9,11 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BackgroundImage;
@@ -26,29 +31,111 @@ import javafx.scene.text.Font;
 public class FieldDraw{
 	private Scene scene;
 	private Canvas canvas;
-	private Button backButton, clearButton, blackBut, redBut, blueBut, greenBut, whiteBut;
+	private Button backButton, clearButton, blackBut, redBut, blueBut, greenBut, whiteBut, obstacleBut, rightObstacleBut, clearObstacleBut, undo;
 	private ArrayList<Button> colorButtons;
+	private ArrayList<Obstacle> leftObstacles, rightObstacles;
 	private Label colorLabel;
-	private Image backImage;
-	private HBox top;
+	private Image backImage, blueBotImage;
+	private HBox top, bot;
+	private GraphicsContext gc;
+	private Obstacle leftLowBar, rightLowBar;
+	private ArrayList<Integer> xpoints, ypoints;
+	private Stack<ArrayList<Integer>> allXPoints;
+	private Stack<ArrayList<Integer>> allYPoints;
+	private Stack<Color> lineColors;
+	
+	public static final int LEFT_POS_X = 451;
+	public static final int RIGHT_POS_X = 765;
+	public static final int RIGHT_SIDE_LENGTH = 383;
+	public static final int LEFT_POS_ONE_Y = 492;
+	public static final int LEFT_POS_FIVE_Y = 181;
+	public static final int OBSTACLE_BACK_WIDTH = 67;
+	public static final int OBSTACLE_BACK_HEIGHT = 78;
 	
 	public FieldDraw(){
 		canvas = new Canvas(1280, 800);
-		final GraphicsContext gc = canvas.getGraphicsContext2D();
+		gc = canvas.getGraphicsContext2D();
 		gc.setStroke(Color.BLACK);
 		gc.setLineWidth(3);
+		xpoints = new ArrayList<Integer>();
+		ypoints = new ArrayList<Integer>();
+		allXPoints = new Stack<ArrayList<Integer>>();
+		allYPoints = new Stack<ArrayList<Integer>>();
+		lineColors = new Stack<Color>();
 		canvas.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
 			public void handle(MouseEvent event) {
 				gc.beginPath();
-				gc.moveTo(event.getX(), event.getY());
+				double x = event.getX();
+				double y = event.getY();
+				gc.moveTo(x, y);
+				xpoints.add((int)x);
+				ypoints.add((int)y);
 				gc.stroke();
+				System.out.print(x);
+				System.out.println(y);
 			}
 		});
 		canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>(){
 			public void handle(MouseEvent event) {
-				gc.lineTo(event.getX(), event.getY());
+				double x = event.getX();
+				double y = event.getY();
+				gc.lineTo(x, y);
+				xpoints.add((int)x);
+				ypoints.add((int)y);
 				gc.stroke();
 			}
+		});
+		canvas.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>(){
+			public void handle(MouseEvent event){
+				allXPoints.push(xpoints);
+				allYPoints.push(ypoints);
+				lineColors.push((Color)gc.getStroke());
+				xpoints = new ArrayList<Integer>();
+				ypoints = new ArrayList<Integer>();
+			}
+		});
+		
+		leftObstacles = new ArrayList<Obstacle>();
+		rightObstacles = new ArrayList<Obstacle>();
+		
+		drawObstacleRects();
+		
+		leftLowBar = new Obstacle("Low Bar", 1, 0);
+		rightLowBar = new Obstacle("Low Bar", 1, 1);
+		
+		undo = new Button("Undo");
+		undo.setFont(Font.font("Verdana", 20));
+		undo.setPrefSize(100, 38);
+		undo.setOnAction(e -> {
+			undoMark();
+		});
+		
+		obstacleBut = new Button("Edit Left");
+		obstacleBut.setFont(Font.font("Verdana", 20));
+		obstacleBut.setPrefSize(150, 38);
+		obstacleBut.setOnAction(e -> {
+			ArrayList<Obstacle> temp = new ArrayList<Obstacle>();
+			for(Obstacle o:leftObstacles){
+				temp.add(o);
+			}
+			leftObstacles.clear();
+			clearCanvas(false);
+			leftObstacles = ObstacleChooser.display("Left Side", temp);
+			clearCanvas(false);
+		});
+		
+		rightObstacleBut = new Button("Edit Right");
+		rightObstacleBut.setFont(Font.font("Verdana", 20));
+		rightObstacleBut.setPrefSize(150, 38);
+		rightObstacleBut.setOnAction(e -> {
+			ArrayList<Obstacle> temp = new ArrayList<Obstacle>();
+			for(Obstacle o:rightObstacles){
+				temp.add(o);
+			}
+			rightObstacles.clear();
+			clearCanvas(false);
+			rightObstacles = ObstacleChooser.display("Right Side", temp);
+			clearCanvas(false);
 		});
 		
 		backButton = new Button();
@@ -66,12 +153,21 @@ public class FieldDraw{
 		});
 		backButton.setPrefSize(38, 38);
 		
-		clearButton = new Button("Clear");
+		clearButton = new Button("Clear Marks");
 		clearButton.setFont(Font.font("Verdana", 20));
 		clearButton.setOnAction(e -> {
-			gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+			clearCanvas(true);
 		});
-		clearButton.setPrefSize(100, 38);
+		clearButton.setPrefSize(150, 38);
+		
+		clearObstacleBut = new Button("Clear Obstacles");
+		clearObstacleBut.setFont(Font.font("Verdana", 20));
+		clearObstacleBut.setPrefSize(185, 38);
+		clearObstacleBut.setOnAction(e -> {
+			leftObstacles.clear();
+			rightObstacles.clear();
+			clearCanvas(false);
+		});
 		
 		colorLabel = new Label("Select Color:");
 		colorLabel.setAlignment(Pos.CENTER);
@@ -83,6 +179,7 @@ public class FieldDraw{
 		blackBut = new Button();
 		blackBut.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
 		blackBut.setPrefSize(38, 38);
+		setSelectedColorButton(blackBut);
 		blackBut.setOnAction(e -> {
 			gc.setStroke(Color.BLACK);
 			setSelectedColorButton(blackBut);
@@ -126,18 +223,39 @@ public class FieldDraw{
 		colorButtons.add(greenBut);
 		colorButtons.add(whiteBut);
 		
+		blueBotImage = new Image(getClass().getResourceAsStream("BlueBot.png"));
+		ImageView viewer = new ImageView(blueBotImage);
+		
 		top = new HBox(5);
-		//top.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.DASHED, null, BorderStroke.THIN)));
-		top.getChildren().addAll(backButton, colorLabel, blackBut, redBut, blueBut, greenBut, whiteBut, clearButton);
+		top.getChildren().addAll(backButton, colorLabel, blackBut, redBut, blueBut, greenBut, whiteBut, clearButton, undo, obstacleBut, rightObstacleBut, clearObstacleBut);
 		top.setAlignment(Pos.CENTER);
 		
+		bot = new HBox(5);
+		bot.setAlignment(Pos.CENTER);
+		/*
+		bot.setOnDragDetected(new EventHandler<MouseEvent>(){
+			public void handle(MouseEvent event){
+				Dragboard db = bot.startDragAndDrop(TransferMode.MOVE);
+				
+				ClipboardContent clip = new ClipboardContent();
+				clip.putImage(blueBotImage);
+				db.setContent(clip);
+			}
+		});
+		*/
+		bot.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
+		bot.setPrefSize(1280, 50);
+		bot.getChildren().addAll(viewer);
+		
 		BorderPane root = new BorderPane();
-		Image field = new Image(getClass().getResourceAsStream("Stronghold Good Field.png"));
+		Image field = new Image(getClass().getResourceAsStream("Stronghold Good Field.PNG"));
 		BackgroundImage fieldImage = new BackgroundImage(field, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(100, 100, true, true, true, false));
 		root.setBackground(new Background(fieldImage));
 		root.setCenter(canvas);
 		root.setTop(top);
-		scene = new Scene(root, 1280, 800);
+		root.setBottom(bot);
+		scene = new Scene(root, 1280, 750);
+		drawAllObstacles();
 	}
 	
 	public Scene getScene(){
@@ -152,7 +270,66 @@ public class FieldDraw{
 					but.setBorder(new Border(new BorderStroke(null, BorderStrokeStyle.NONE, null, null)));
 				else
 					but.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, BorderStroke.THIN)));
+			}		
+	}
+	
+	public void drawAllObstacles(){
+		for(Obstacle o:leftObstacles){
+			gc.drawImage(o.getImage(), o.getX(), o.getY());
+		}
+		for(Obstacle o:rightObstacles){
+			gc.drawImage(o.getImage(), o.getX(), o.getY());
+		}
+		gc.drawImage(leftLowBar.getImage(), leftLowBar.getX(), leftLowBar.getY());
+		gc.drawImage(rightLowBar.getImage(), rightLowBar.getX(), rightLowBar.getY());
+	}
+	
+	public void drawObstacleRects(){
+		gc.setFill(Color.WHITE);
+		gc.fillRect(LEFT_POS_X, LEFT_POS_FIVE_Y, OBSTACLE_BACK_WIDTH, LEFT_POS_ONE_Y-LEFT_POS_FIVE_Y+74);
+		gc.fillRect(RIGHT_POS_X, 106, OBSTACLE_BACK_WIDTH+1, 383);
+	}
+	
+	public void clearCanvas(boolean all){
+		if(all){
+			gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+			drawObstacleRects();
+			drawAllObstacles();
+			allXPoints.clear();
+			allYPoints.clear();
+		}
+		else{
+			gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+			redrawLines();
+		}
+	}
+	
+	public void undoMark(){
+		if(!allXPoints.isEmpty()){
+			allXPoints.pop();
+			allYPoints.pop();
+			lineColors.pop();
+			redrawLines();
+		}
+	}
+	
+	public void redrawLines(){
+		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+		drawObstacleRects();
+		drawAllObstacles();
+		for(int i = 0; i<allXPoints.size(); i++){
+			for(int k = 0; k<allXPoints.get(i).size(); k++){
+				if(k == 0){
+					gc.setStroke(lineColors.get(i));
+					gc.beginPath();
+					gc.moveTo(allXPoints.get(i).get(k), allYPoints.get(i).get(k));
+					gc.stroke();
+				}
+				else{
+					gc.lineTo(allXPoints.get(i).get(k), allYPoints.get(i).get(k));
+					gc.stroke();
+				}	
 			}
-				
+		}
 	}
 }
