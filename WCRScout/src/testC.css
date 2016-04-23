@@ -5,6 +5,12 @@
 	-fx-font-size: 30px;
 }
 .check-box{
-	-fx-padding: 30px;
+	-fx-padding: 20px;
 	-fx-font-size: 35px;
+}
+.check-box:selected{
+	-fx-background-color: green;
+}
+.text-area{
+	-fx-font-size: 20px;
 }

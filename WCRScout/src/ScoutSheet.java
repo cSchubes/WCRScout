@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -31,9 +32,10 @@ public class ScoutSheet {
 	private TextField teamNumber;
 	private ImageView lowBarView;
 	private CheckBox lowBarCheck;
+	private TextArea lowBarNotes;
 	
-	final Image lowBar = new Image(getClass().getResourceAsStream("LowBarImage.png"), 0, 150, true, true);
-	final Image portCullis = new Image(getClass().getResourceAsStream("PortCullisImage.png"), 0, 78, true, true);
+	final Image lowBar = new Image(getClass().getResourceAsStream("LowBarImage.png"), 0, 125, true, true);
+	final Image portCullis = new Image(getClass().getResourceAsStream("PortCullisImage.png"), 0, 150, true, true);
 	final Image ramparts = new Image(getClass().getResourceAsStream("RampartsImage.png"), 67, 0, true, true);
 	final Image cheval = new Image(getClass().getResourceAsStream("ChevalImage.png"), 67, 0, true, true);
 	final Image moat = new Image(getClass().getResourceAsStream("MoatImage.png"), 67, 0, true, true);
@@ -55,13 +57,16 @@ public class ScoutSheet {
 		GridPane.setConstraints(lowBarView, 0, 1);
 		lowBarCheck = new CheckBox("Y/N");
 		GridPane.setConstraints(lowBarCheck, 1, 1, 1, 1, HPos.CENTER, VPos.CENTER);
+		lowBarNotes = new TextArea();
+		lowBarNotes.setPrefSize(100, 100);
+		GridPane.setConstraints(lowBarNotes, 0, 2, 2, 1, HPos.CENTER, VPos.CENTER);
 		top =  new HBox(10);
 		top.setPadding(new Insets(10, 10, 0, 10));
 		top.getChildren().addAll(teamNumLab, teamNumber);
 		top.setAlignment(Pos.CENTER);
 		grid = new GridPane();
 		grid.setPadding(new Insets(0,50,50,50));
-		grid.getChildren().addAll(defenseLab, lowBarView, lowBarCheck);
+		grid.getChildren().addAll(defenseLab, lowBarView, lowBarCheck, lowBarNotes);
 		border = new BorderPane();
 		Image back = new Image(getClass().getResourceAsStream("Complete Logo LOWQUALITY.png"));
 		BackgroundImage backImg = new BackgroundImage(back, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(247,82, false, false, true, false));
