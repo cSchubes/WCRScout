@@ -26,19 +26,19 @@ public class ScoutSheet {
 	private Scene scene;
 	private ScrollPane scroller;
 	private HBox top;
-	private GridPane grid, lowBarGrid, portGrid, chevalGrid, roughGrid, rampartGrid;
+	private GridPane grid, lowBarGrid, portGrid, chevalGrid, roughGrid, rampartGrid, moatGrid;
 	private BorderPane border;
 	private Label teamNumLab, defenseLab, aLabel, bLabel;
 	private TextField teamNumber;
-	private ImageView lowBarView, portView, chevalView, roughView, rampartView;
-	private CheckBox lowBarCheck, portCheck, chevalCheck, roughCheck, rampartCheck;
-	private TextArea lowBarNotes, portNotes, chevalNotes, roughNotes, rampartNotes;
+	private ImageView lowBarView, portView, chevalView, roughView, rampartView, moatView;
+	private CheckBox lowBarCheck, portCheck, chevalCheck, roughCheck, rampartCheck, moatCheck;
+	private TextArea lowBarNotes, portNotes, chevalNotes, roughNotes, rampartNotes, moatNotes;
 	
 	final Image lowBar = new Image(getClass().getResourceAsStream("LowBarImage.png"), 0, 125, true, true);
 	final Image portCullis = new Image(getClass().getResourceAsStream("PortCullisImage.png"), 0, 125, true, true);
 	final Image ramparts = new Image(getClass().getResourceAsStream("RampartsImage.png"), 0, 125, true, true);
 	final Image cheval = new Image(getClass().getResourceAsStream("ChevalImage.png"), 0, 125, true, true);
-	final Image moat = new Image(getClass().getResourceAsStream("MoatImage.png"), 67, 0, true, true);
+	final Image moat = new Image(getClass().getResourceAsStream("MoatImage.png"), 0, 125, true, true);
 	final Image drawbridge = new Image(getClass().getResourceAsStream("DrawbridgeImage.png"), 0, 73, true, true);
 	final Image sallyPort = new Image(getClass().getResourceAsStream("SallyPortImage.png"), 67, 0, true, true);
 	final Image rockWall = new Image(getClass().getResourceAsStream("RockWallImage.png"), 67, 0, true, true);
@@ -58,7 +58,7 @@ public class ScoutSheet {
 		bLabel = new Label("Category B");
 		bLabel.setFont(Font.font("Verdana", 30));
 		bLabel.setId("defenseLabels");
-		GridPane.setConstraints(aLabel, 1, 5, 4, 1, HPos.CENTER, VPos.CENTER);
+		GridPane.setConstraints(aLabel, 1, 4, 5, 1, HPos.CENTER, VPos.CENTER);
 		GridPane.setConstraints(defenseLab, 1, 0, 4, 1, HPos.CENTER, VPos.CENTER);
 		GridPane.setConstraints(bLabel, 1, 9, 4, 1, HPos.CENTER, VPos.CENTER);
 		
@@ -71,7 +71,7 @@ public class ScoutSheet {
 		lowBarNotes.setPrefSize(0, 100);
 		GridPane.setConstraints(lowBarNotes, 0, 1, 2, 2, HPos.CENTER, VPos.CENTER);
 		lowBarGrid.getChildren().addAll(lowBarCheck, lowBarView, lowBarNotes);
-		GridPane.setConstraints(lowBarGrid, 0, 1, 2, 3, HPos.CENTER, VPos.CENTER);
+		GridPane.setConstraints(lowBarGrid, 0, 1, 2, 4, HPos.CENTER, VPos.CENTER);
 		
 		portGrid = new GridPane();
 		portView = new ImageView(portCullis);
@@ -115,7 +115,18 @@ public class ScoutSheet {
 		rampartNotes.setPrefSize(100, 100);
 		GridPane.setConstraints(rampartNotes, 0, 2, 2, 2, HPos.LEFT, VPos.CENTER);
 		rampartGrid.getChildren().addAll(rampartView, rampartNotes, rampartCheck);
-		GridPane.setConstraints(rampartGrid, 0, 10, 2, 3, HPos.CENTER, VPos.CENTER);
+		GridPane.setConstraints(rampartGrid, 0, 9, 2, 3, HPos.CENTER, VPos.CENTER);
+		
+		moatGrid = new GridPane();
+		moatView = new ImageView(moat);
+		GridPane.setConstraints(moatView, 0, 0);
+		moatCheck = new CheckBox("Y/N");
+		GridPane.setConstraints(moatCheck, 1, 0, 1, 1, HPos.CENTER, VPos.CENTER);
+		moatNotes = new TextArea();
+		moatNotes.setPrefSize(100, 100);
+		GridPane.setConstraints(moatNotes, 0, 2, 2, 2, HPos.LEFT, VPos.CENTER);
+		moatGrid.getChildren().addAll(moatView, moatCheck, moatNotes);
+		GridPane.setConstraints(moatGrid, 3, 9, 2, 3, HPos.CENTER, VPos.CENTER);
 		
 		top =  new HBox(10);
 		top.setPadding(new Insets(10, 10, 0, 10));
@@ -125,7 +136,7 @@ public class ScoutSheet {
 		grid.setPadding(new Insets(0,50,50,50));
 		grid.setVgap(10);
 		grid.setHgap(10);
-		grid.getChildren().addAll(defenseLab, lowBarGrid, aLabel, bLabel, portGrid, chevalGrid, roughGrid, rampartGrid);
+		grid.getChildren().addAll(defenseLab, lowBarGrid, moatGrid, aLabel, bLabel, portGrid, chevalGrid, roughGrid, rampartGrid);
 		border = new BorderPane();
 		Image back = new Image(getClass().getResourceAsStream("Complete Logo LOWQUALITY.png"));
 		BackgroundImage backImg = new BackgroundImage(back, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(247,82, false, false, true, false));
