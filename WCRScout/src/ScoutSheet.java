@@ -12,11 +12,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -26,13 +26,13 @@ public class ScoutSheet {
 	private Scene scene;
 	private ScrollPane scroller;
 	private HBox top;
-	private GridPane grid, lowBarGrid, portGrid, chevalGrid, roughGrid, rampartGrid, moatGrid;
+	private GridPane grid, lowBarGrid, portGrid, chevalGrid, roughGrid, rampartGrid, moatGrid, drawGrid;
 	private BorderPane border;
-	private Label teamNumLab, defenseLab, aLabel, bLabel;
+	private Label teamNumLab, defenseLab, aLabel, bLabel, cLabel;
 	private TextField teamNumber;
-	private ImageView lowBarView, portView, chevalView, roughView, rampartView, moatView;
-	private CheckBox lowBarCheck, portCheck, chevalCheck, roughCheck, rampartCheck, moatCheck;
-	private TextArea lowBarNotes, portNotes, chevalNotes, roughNotes, rampartNotes, moatNotes;
+	private ImageView lowBarView, portView, chevalView, roughView, rampartView, moatView, drawView;
+	private CheckBox lowBarCheck, portCheck, chevalCheck, roughCheck, rampartCheck, moatCheck, drawCheck;
+	private TextArea lowBarNotes, portNotes, chevalNotes, roughNotes, rampartNotes, moatNotes, drawNotes;
 	
 	final Image lowBar = new Image(getClass().getResourceAsStream("LowBarImage.png"), 0, 125, true, true);
 	final Image portCullis = new Image(getClass().getResourceAsStream("PortCullisImage.png"), 0, 125, true, true);
@@ -128,6 +128,9 @@ public class ScoutSheet {
 		moatGrid.getChildren().addAll(moatView, moatCheck, moatNotes);
 		GridPane.setConstraints(moatGrid, 3, 9, 2, 3, HPos.CENTER, VPos.CENTER);
 		
+		drawGrid = new GridPane();
+		drawView = new ImageView(drawBridge);
+		
 		top =  new HBox(10);
 		top.setPadding(new Insets(10, 10, 0, 10));
 		top.getChildren().addAll(teamNumLab, teamNumber);
@@ -139,13 +142,14 @@ public class ScoutSheet {
 		grid.getChildren().addAll(defenseLab, lowBarGrid, moatGrid, aLabel, bLabel, portGrid, chevalGrid, roughGrid, rampartGrid);
 		border = new BorderPane();
 		Image back = new Image(getClass().getResourceAsStream("Complete Logo LOWQUALITY.png"));
-		BackgroundImage backImg = new BackgroundImage(back, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(247,82, false, false, true, false));
+		//BackgroundImage backImg = new BackgroundImage(back, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(247,82, false, false, true, false));
 		BackgroundFill fill = new BackgroundFill(Color.WHITE, null, null);
-		BackgroundImage[] imgArr = new BackgroundImage[1];
+		//BackgroundImage[] imgArr = new BackgroundImage[1];
 		BackgroundFill[] fillArr = new BackgroundFill[1];
-		imgArr[0] = backImg;
+		//imgArr[0] = backImg;
 		fillArr[0] = fill;
-		border.setBackground(new Background(fillArr, imgArr));
+		border.setBackground(new Background(fillArr));
+		border.setBorder(new Border(new BorderStroke(Color.MAROON, BorderStrokeStyle.SOLID, null, new BorderWidths(20))));
 		border.setTop(top);
 		border.setCenter(grid);
 		scroller = new ScrollPane();
