@@ -4,3 +4,7 @@
 .choice-box{
 	-fx-font-size: 30px;
 }
+.check-box{
+	-fx-padding: 30px;
+	-fx-font-size: 35px;
+}
