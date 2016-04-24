@@ -57,6 +57,7 @@ public class MainMenu{
 		
 		lookup = new Button("Team Report");
 		lookup.setPrefSize(450, 200);
+		lookup. setFont(Font.font("Verdana", 40));
 		
 		grid = new GridPane();
 		grid.setPadding(new Insets(100, 100, 100, 100));
