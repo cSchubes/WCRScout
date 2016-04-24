@@ -219,8 +219,10 @@ public class FieldDraw{
 		colorButtons.add(greenBut);
 		colorButtons.add(whiteBut);
 		
+		/*
 		blueBotImage = new Image(getClass().getResourceAsStream("BlueBot.png"));
 		ImageView viewer = new ImageView(blueBotImage);
+		*/
 		
 		top = new HBox(5);
 		top.getChildren().addAll(backButton, colorLabel, blackBut, redBut, blueBut, greenBut, whiteBut, clearButton, undo, obstacleBut, rightObstacleBut, clearObstacleBut);
@@ -241,7 +243,7 @@ public class FieldDraw{
 		*/
 		bot.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
 		bot.setPrefSize(1280, 50);
-		bot.getChildren().addAll(viewer);
+		//bot.getChildren().addAll(viewer);
 		
 		BorderPane root = new BorderPane();
 		Image field = new Image(getClass().getResourceAsStream("Stronghold Good Field.PNG"));

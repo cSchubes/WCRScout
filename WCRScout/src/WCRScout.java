@@ -6,6 +6,8 @@ public class WCRScout extends Application{
 	public static MainMenu mainMenu;
 	public static FieldDraw fieldDraw;
 	public static ScoutSheet scoutSheet;
+	public static ReportSearch reportSearch;
+	public static Report report;
 	
 	public static void main (String[] args){
 		launch();
@@ -21,6 +23,7 @@ public class WCRScout extends Application{
 		mainMenu = new MainMenu();
 		fieldDraw = new FieldDraw();
 		scoutSheet = new ScoutSheet();
+		reportSearch = new ReportSearch();
 		window.setScene(mainMenu.getScene());
 		window.show();
 	}

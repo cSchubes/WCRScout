@@ -58,6 +58,10 @@ public class MainMenu{
 		lookup = new Button("Team Report");
 		lookup.setPrefSize(450, 200);
 		lookup. setFont(Font.font("Verdana", 40));
+		lookup.setOnAction(e -> {
+			WCRScout.window.setScene(WCRScout.reportSearch.getScene());
+			WCRScout.window.centerOnScreen();
+		});
 		
 		grid = new GridPane();
 		grid.setPadding(new Insets(100, 100, 100, 100));

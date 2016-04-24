@@ -28,7 +28,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
-public class ScoutSheet {
+public class Report {	
 	private Scene scene;
 	private ScrollPane scroller;
 	private HBox top;
@@ -52,17 +52,23 @@ public class ScoutSheet {
 	final Image rockWall = new Image(getClass().getResourceAsStream("RockWallImage.png"), 0, 125, true, true);
 	final Image roughTerrain = new Image(getClass().getResourceAsStream("RoughTerrainImage.png"), 0, 125, true, true);
 	
-	public ScoutSheet(){
-		teamNumLab = new Label("Team Number:");
-		teamNumLab.setFont(Font.font("Verdana", 30));
+	//private Team team;
+	
+	public Report(){
+		//teamNumLab = new Label(team.getNumber());
+		//teamNumLab.setFont(Font.font("Verdana", 30));
+		/*
 		teamNumber = new TextField();
 		teamNumber.setFont(Font.font("Verdana", 30));
 		teamNumber.setPrefWidth(120);
-		teamNameLab = new Label("Team Name:");
-		teamNameLab.setFont(Font.font("Verdana", 30));
+		*/
+		//teamNameLab = new Label(team.getName());
+		//teamNameLab.setFont(Font.font("Verdana", 30));
+		/*
 		teamName = new TextField();
 		teamName.setFont(Font.font("Verdana", 30));
 		teamName.setPrefWidth(300);
+		*/
 		
 		backButton = new Button();
 		backImage = new Image(getClass().getResourceAsStream("back arrow.png"));
@@ -86,7 +92,7 @@ public class ScoutSheet {
 		clear.setPadding(new Insets(0, 25, 0, 25));
 		clear.setTextAlignment(TextAlignment.CENTER);
 		clear.setOnAction(e -> {
-			clear();
+			//clear();
 		});
 		
 		save = new Button("Save");
@@ -267,7 +273,7 @@ public class ScoutSheet {
 		
 		top = new HBox(10);
 		top.setPadding(new Insets(10, 0, 0, 0));
-		top.getChildren().addAll(backButton, teamNumLab, teamNumber, teamNameLab, teamName);
+		top.getChildren().addAll(backButton, teamNumLab, teamNameLab);
 		top.setAlignment(Pos.CENTER);
 		
 		teamNumLab.setPadding(new Insets(0, 0, 0, 50));
@@ -277,7 +283,6 @@ public class ScoutSheet {
 		grid.setPadding(new Insets(20,50,50,50));
 		grid.setVgap(10);
 		grid.setHgap(10);
-		grid.setAlignment(Pos.CENTER);
 		grid.getChildren().addAll(defenseLab, save, shotGrid, clear, general, generalNotes, challengeGrid, capabilities, lowBarGrid, rockGrid, dLabel, moatGrid, aLabel, bLabel, cLabel, drawGrid, portGrid, chevalGrid, roughGrid, rampartGrid, sallyGrid);
 		border = new BorderPane();
 		//border.setPrefSize(1280, 800);
@@ -303,9 +308,5 @@ public class ScoutSheet {
 	
 	public Scene getScene(){
 		return scene;
-	}
-	
-	public void clear(){
-		
 	}
 }
