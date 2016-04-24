@@ -15,7 +15,7 @@
 	-fx-font-size: 15px;
 }
 #defenseLabels {
-	-fx-text-fill: limegreen;
+	-fx-text-fill: blue;
 }
 #capLabel{
 	-fx-font-padding: 5px;
