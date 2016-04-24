@@ -3,6 +3,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -12,6 +13,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.BorderStroke;
@@ -21,18 +26,21 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 
 public class ScoutSheet {
 	private Scene scene;
 	private ScrollPane scroller;
 	private HBox top;
-	private GridPane grid, buffer, lowBarGrid, portGrid, chevalGrid, roughGrid, rampartGrid, moatGrid, drawGrid, sallyGrid, rockGrid;
+	private GridPane grid, lowBarGrid, portGrid, chevalGrid, roughGrid, rampartGrid, moatGrid, drawGrid, sallyGrid, rockGrid, shotGrid, challengeGrid;
 	private BorderPane border;
-	private Label teamNumLab, defenseLab, aLabel, bLabel, cLabel, dLabel;
-	private TextField teamNumber;
+	private Label teamNumLab, teamNameLab, defenseLab, aLabel, bLabel, cLabel, dLabel, capabilities, shot, challenge, general;
+	private TextField teamNumber, teamName;
 	private ImageView lowBarView, portView, chevalView, roughView, rampartView, moatView, drawView, sallyView, rockView;
-	private CheckBox lowBarCheck, portCheck, chevalCheck, roughCheck, rampartCheck, moatCheck, drawCheck, sallyCheck, rockCheck;
-	private TextArea lowBarNotes, portNotes, chevalNotes, roughNotes, rampartNotes, moatNotes, drawNotes, sallyNotes, rockNotes;
+	private CheckBox lowBarCheck, portCheck, chevalCheck, roughCheck, rampartCheck, moatCheck, drawCheck, sallyCheck, rockCheck, highShotCheck, lowShotCheck, parkCheck, scaleCheck;
+	private TextArea lowBarNotes, portNotes, chevalNotes, roughNotes, rampartNotes, moatNotes, drawNotes, sallyNotes, rockNotes, shotNotes, challengeNotes, generalNotes;
+	private Button clear, save, backButton;
+	private Image backImage;
 	
 	final Image lowBar = new Image(getClass().getResourceAsStream("LowBarImage.png"), 0, 125, true, true);
 	final Image portCullis = new Image(getClass().getResourceAsStream("PortCullisImage.png"), 0, 125, true, true);
@@ -50,8 +58,47 @@ public class ScoutSheet {
 		teamNumber = new TextField();
 		teamNumber.setFont(Font.font("Verdana", 30));
 		teamNumber.setPrefWidth(120);
+		teamNameLab = new Label("Team Name:");
+		teamNameLab.setFont(Font.font("Verdana", 30));
+		teamName = new TextField();
+		teamName.setFont(Font.font("Verdana", 30));
+		teamName.setPrefWidth(300);
+		
+		backButton = new Button();
+		backImage = new Image(getClass().getResourceAsStream("back arrow.png"));
+		BackgroundImage back = new BackgroundImage(backImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(30, 30, true, true, true, false));
+		BackgroundFill fill2 = new BackgroundFill(Color.MAROON, null, null);
+		BackgroundImage[] backArr2 = new BackgroundImage[1];
+		BackgroundFill[] fillArr2 = new BackgroundFill[1];
+		backArr2[0] = back;
+		fillArr2[0] = fill2;
+		backButton.setBackground(new Background(fillArr2, backArr2));
+		backButton.setOnAction(e -> {
+			WCRScout.window.setScene(WCRScout.mainMenu.getScene());
+			WCRScout.window.centerOnScreen();
+		});
+		backButton.setPrefSize(50, 50);
+		
+		clear = new Button("Clear");
+		clear.setFont(Font.font("Verdana", 30));
+		clear.setPrefSize(200, 150);
+		GridPane.setConstraints(clear, 5, 15, 2, 3, HPos.CENTER, VPos.CENTER);
+		clear.setPadding(new Insets(0, 25, 0, 25));
+		clear.setTextAlignment(TextAlignment.CENTER);
+		clear.setOnAction(e -> {
+			clear();
+		});
+		
+		save = new Button("Save");
+		save.setFont(Font.font("Verdana", 30));
+		save.setPrefSize(200, 150);
+		GridPane.setConstraints(save, 5, 20, 2, 3, HPos.CENTER, VPos.CENTER);
+		save.setPadding(new Insets(0, 25, 0, 25));
+		save.setTextAlignment(TextAlignment.CENTER);
+		
 		defenseLab = new Label("Defenses");
 		defenseLab.setFont(Font.font("Verdana", 40));
+		defenseLab.setId("defenseLabels");
 		aLabel = new Label("Category A");
 		aLabel.setFont(Font.font("Verdana", 30));
 		aLabel.setId("defenseLabels");
@@ -69,6 +116,12 @@ public class ScoutSheet {
 		GridPane.setConstraints(bLabel, 1, 9, 4, 1, HPos.CENTER, VPos.CENTER);
 		GridPane.setConstraints(cLabel, 1, 14, 4, 1, HPos.CENTER, VPos.CENTER);
 		GridPane.setConstraints(dLabel, 1, 19, 4, 1, HPos.CENTER, VPos.CENTER);
+		
+		capabilities = new Label("Capablities");
+		capabilities.setFont(Font.font("Verdana", 40));
+		capabilities.setId("defenseLabels");
+		capabilities.setPadding(new Insets(0, 0, 0, 50));
+		GridPane.setConstraints(capabilities, 5, 0, 2, 1, HPos.CENTER, VPos.CENTER);
 		
 		lowBarGrid = new GridPane();
 		lowBarView = new ImageView(lowBar);
@@ -134,7 +187,7 @@ public class ScoutSheet {
 		moatNotes.setPrefSize(100, 100);
 		GridPane.setConstraints(moatNotes, 0, 2, 2, 2, HPos.LEFT, VPos.CENTER);
 		moatGrid.getChildren().addAll(moatView, moatCheck, moatNotes);
-		GridPane.setConstraints(moatGrid, 3, 10, 2, 3, HPos.CENTER, VPos.CENTER);
+		GridPane.setConstraints(moatGrid, 2, 10, 2, 3, HPos.CENTER, VPos.CENTER);
 		
 		drawGrid = new GridPane();
 		drawView = new ImageView(drawbridge);
@@ -169,23 +222,72 @@ public class ScoutSheet {
 		rockGrid.getChildren().addAll(rockView, rockCheck, rockNotes);
 		GridPane.setConstraints(rockGrid, 0, 20, 2, 3, HPos.CENTER, VPos.CENTER);
 		
-		top =  new HBox(10);
-		top.setPadding(new Insets(10, 10, 0, 10));
-		top.getChildren().addAll(teamNumLab, teamNumber);
+		shotGrid = new GridPane();
+		shot = new Label("Shot:");
+		shot.setFont(Font.font("Verdana", 35));
+		shot.setPadding(new Insets(0, 0, 0, 50));
+		GridPane.setConstraints(shot, 0, 0, 1, 2, HPos.CENTER, VPos.CENTER);
+		highShotCheck = new CheckBox("High");
+		highShotCheck.setId("capLabel");
+		lowShotCheck = new CheckBox("Low ");
+		lowShotCheck.setId("capLabel");
+		GridPane.setConstraints(highShotCheck, 1, 0, 1, 1, HPos.CENTER, VPos.CENTER);
+		GridPane.setConstraints(lowShotCheck, 1, 1, 1, 1, HPos.CENTER, VPos.CENTER);
+		shotNotes = new TextArea();
+		shotNotes.setPrefSize(100, 100);
+		GridPane.setConstraints(shotNotes, 0, 2, 2, 2, HPos.CENTER, VPos.CENTER);
+		shotGrid.getChildren().addAll(shot, highShotCheck, lowShotCheck, shotNotes);
+		GridPane.setConstraints(shotGrid, 5, 1, 2, 2, HPos.CENTER, VPos.CENTER);
+		shotGrid.setPadding(new Insets(0, 0, 0, 50));
+		
+		challengeGrid = new GridPane();
+		challenge = new Label("Challenge:");
+		challenge.setFont(Font.font("Verdana", 35));
+		GridPane.setConstraints(challenge, 0, 0, 1, 2, HPos.CENTER, VPos.CENTER);
+		parkCheck = new CheckBox("Park ");
+		parkCheck.setId("capLabel");
+		scaleCheck = new CheckBox("Scale");
+		scaleCheck.setId("capLabel");
+		GridPane.setConstraints(parkCheck, 1, 0, 1, 1, HPos.CENTER, VPos.CENTER);
+		GridPane.setConstraints(scaleCheck, 1, 1, 1, 1, HPos.CENTER, VPos.CENTER);
+		challengeNotes = new TextArea();
+		challengeNotes.setPrefSize(100, 100);
+		GridPane.setConstraints(challengeNotes, 0, 2, 2, 2, HPos.CENTER, VPos.CENTER);
+		challengeGrid.getChildren().addAll(challenge, parkCheck, scaleCheck, challengeNotes);
+		GridPane.setConstraints(challengeGrid, 5, 5, 2, 2, HPos.CENTER, VPos.CENTER);
+		challengeGrid.setPadding(new Insets(0, 0, 0, 50));
+		
+		general = new Label("General Notes");
+		general.setFont(Font.font("Verdana", 30));
+		GridPane.setConstraints(general, 5, 9, 2, 1, HPos.CENTER, VPos.CENTER);
+		
+		generalNotes = new TextArea();
+		generalNotes.setPrefSize(200, 400);
+		GridPane.setConstraints(generalNotes, 5, 10, 3, 2, HPos.CENTER, VPos.CENTER);
+		
+		top = new HBox(10);
+		top.setPadding(new Insets(10, 0, 0, 0));
+		top.getChildren().addAll(backButton, teamNumLab, teamNumber, teamNameLab, teamName);
 		top.setAlignment(Pos.CENTER);
+		
+		teamNumLab.setPadding(new Insets(0, 0, 0, 50));
+		teamNameLab.setPadding(new Insets(0, 0, 0, 50));
+		
 		grid = new GridPane();
-		grid.setPadding(new Insets(0,50,50,50));
+		grid.setPadding(new Insets(20,50,50,50));
 		grid.setVgap(10);
 		grid.setHgap(10);
-		grid.getChildren().addAll(defenseLab, lowBarGrid, rockGrid, dLabel, moatGrid, aLabel, bLabel, cLabel, drawGrid, portGrid, chevalGrid, roughGrid, rampartGrid, sallyGrid);
+		grid.getChildren().addAll(defenseLab, save, shotGrid, clear, general, generalNotes, challengeGrid, capabilities, lowBarGrid, rockGrid, dLabel, moatGrid, aLabel, bLabel, cLabel, drawGrid, portGrid, chevalGrid, roughGrid, rampartGrid, sallyGrid);
 		border = new BorderPane();
-		Image back = new Image(getClass().getResourceAsStream("Complete Logo LOWQUALITY.png"));
+		//border.setPrefSize(1280, 800);
+		//Image back = new Image(getClass().getResourceAsStream("Complete Logo LOWQUALITY.png"));
 		//BackgroundImage backImg = new BackgroundImage(back, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(247,82, false, false, true, false));
 		BackgroundFill fill = new BackgroundFill(Color.WHITE, null, null);
 		//BackgroundImage[] imgArr = new BackgroundImage[1];
 		BackgroundFill[] fillArr = new BackgroundFill[1];
 		//imgArr[0] = backImg;
 		fillArr[0] = fill;
+		border.setMaxWidth(1280);
 		border.setBackground(new Background(fillArr));
 		border.setBorder(new Border(new BorderStroke(Color.MAROON, BorderStrokeStyle.SOLID, null, new BorderWidths(20))));
 		border.setTop(top);
@@ -200,5 +302,9 @@ public class ScoutSheet {
 	
 	public Scene getScene(){
 		return scene;
+	}
+	
+	public void clear(){
+		
 	}
 }

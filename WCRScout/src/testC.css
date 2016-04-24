@@ -12,8 +12,12 @@
 	-fx-background-color: green;
 }
 .text-area{
-	-fx-font-size: 20px;
+	-fx-font-size: 15px;
 }
 #defenseLabels {
 	-fx-text-fill: limegreen;
+}
+#capLabel{
+	-fx-font-padding: 5px;
+	-fx-font-size: 30px;
 }
