@@ -12,7 +12,7 @@ public class Obstacle {
 	public static final int LEFT_POS_THREE_Y = 362-35;
 	public static final int LEFT_POS_FOUR_Y = 284-35;
 	public static final int LEFT_POS_FIVE_Y = 206-35;
-	public static final int RIGHT_POS_X = 761;
+	public static final int RIGHT_POS_X = 763;
 	public static final int RIGHT_POS_ONE_Y = 131-35;
 	public static final int RIGHT_POS_TWO_Y = 203-35;
 	public static final int RIGHT_POS_THREE_Y = 281-35;

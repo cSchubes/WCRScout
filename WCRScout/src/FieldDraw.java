@@ -43,7 +43,7 @@ public class FieldDraw{
 	private Stack<Color> lineColors;
 	
 	public static final int LEFT_POS_X = 449;
-	public static final int RIGHT_POS_X = 761;
+	public static final int RIGHT_POS_X = 763;
 	public static final int RIGHT_SIDE_LENGTH = 383;
 	public static final int LEFT_POS_ONE_Y = 482;
 	public static final int LEFT_POS_FIVE_Y = 171;
