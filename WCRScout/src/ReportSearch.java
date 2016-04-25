@@ -7,6 +7,7 @@ import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -32,6 +33,7 @@ public class ReportSearch {
 	private TextField number;
 	private ChoiceBox<String> dropdown;
 	private ObservableList<String> choices = FXCollections.observableArrayList();
+	private ComboBox<String> dropCombo;
 	
 	public ReportSearch(){
 		root = new BorderPane();
@@ -53,8 +55,14 @@ public class ReportSearch {
 		dropdown = new ChoiceBox<String>();
 		dropdown.setItems(choices);
 		dropdown.setId("bigChoice");
-		GridPane.setConstraints(dropdown, 1, 2, 1, 1, HPos.CENTER, VPos.CENTER);
+		//GridPane.setConstraints(dropdown, 1, 2, 1, 1, HPos.CENTER, VPos.CENTER);
 		dropdown.setPrefSize(500, 100);
+		
+		dropCombo = new ComboBox<String>();
+		dropCombo.setItems(choices);
+		dropCombo.setId("bigChoice");
+		GridPane.setConstraints(dropCombo, 1, 2, 1, 1, HPos.CENTER, VPos.CENTER);
+		dropCombo.setPrefSize(500, 100);
 		
 		dropDownLab = new Label("Or select team:");
 		dropDownLab.setFont(Font.font("Verdana", 40));
@@ -64,7 +72,7 @@ public class ReportSearch {
 		search.setFont(Font.font("Verdana", 40));
 		GridPane.setConstraints(search, 1, 3, 1, 1, HPos.CENTER, VPos.CENTER);
 		search.setOnAction(e -> {
-			if(dropdown.getValue().equals("")){
+			if(dropCombo.getValue()==null){
 				try{
 					Team t = WCRScout.data.getTeam(Integer.parseInt(number.getText()));
 					Report r = new Report(t);
@@ -78,7 +86,7 @@ public class ReportSearch {
 				}
 			}
 			else{
-				Team t = WCRScout.data.getTeam(dropdown.getValue().substring(0, dropdown.getValue().indexOf(" ")));
+				Team t = WCRScout.data.getTeam(dropCombo.getValue().substring(0, dropCombo.getValue().indexOf(" ")));
 				Report r = new Report(t);
 				WCRScout.window.setScene(r.getScene());
 				number.clear();
@@ -88,7 +96,7 @@ public class ReportSearch {
 		grid = new GridPane();
 		grid.setVgap(50);
 		grid.setHgap(50);
-		grid.getChildren().addAll(lookup, instruct, number, search, dropdown, dropDownLab);
+		grid.getChildren().addAll(lookup, instruct, number, search, dropCombo, dropDownLab);
 		grid.setAlignment(Pos.CENTER);
 		
 		top = new HBox();

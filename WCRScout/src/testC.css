@@ -4,6 +4,9 @@
 .choice-box{
 	-fx-font-size: 30px;
 }
+.choice-box:showing{
+	-fx-background-color: lightblue;
+}
 #bigChoice{
 	-fx-font-size: 30px;
 }
