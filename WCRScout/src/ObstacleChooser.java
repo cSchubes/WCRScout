@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 public class ObstacleChooser {
 	private static ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
 	static final ObservableList<String> choices = FXCollections.observableArrayList("Cheval de Frise", "Portcullis", "Ramparts", "Moat", "Sally Port", "Rock Wall", "Rough Terrain", "Drawbridge");
+	static ObservableList<String> choicesTest = FXCollections.observableArrayList();
 	
 	public static ArrayList<Obstacle> display(String message, ArrayList<Obstacle> current){
 		ArrayList<ChoiceBox<String>> cbs = new ArrayList<ChoiceBox<String>>();
