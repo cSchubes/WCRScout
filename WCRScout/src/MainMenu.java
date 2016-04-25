@@ -22,6 +22,7 @@ public class MainMenu{
 	private MenuBar menuBar;
 	private Menu file;
 	private Menu edit;
+	
 	private Image logo;
 	private Button scoutSheet, fieldDraw, lookup;
 	private GridPane grid;
@@ -59,6 +60,7 @@ public class MainMenu{
 		lookup.setPrefSize(450, 200);
 		lookup. setFont(Font.font("Verdana", 40));
 		lookup.setOnAction(e -> {
+			WCRScout.reportSearch.update();
 			WCRScout.window.setScene(WCRScout.reportSearch.getScene());
 			WCRScout.window.centerOnScreen();
 		});

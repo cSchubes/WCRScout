@@ -4,6 +4,9 @@
 .choice-box{
 	-fx-font-size: 30px;
 }
+#bigChoice{
+	-fx-font-size: 30px;
+}
 .check-box{
 	-fx-padding: 20px;
 	-fx-font-size: 35px;
@@ -21,3 +24,14 @@
 	-fx-font-padding: 5px;
 	-fx-font-size: 30px;
 }
+#yesLab{
+	-fx-background-color: green;
+	-fx-font-family: verdana;
+	-fx-font-size: 25px;
+}
+#noLab{
+	-fx-background-color: red;
+	-fx-font-fanily: verdana;
+	-fx-font-size: 25px;
+}
+
