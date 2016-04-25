@@ -23,7 +23,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-public class ReportSearch {
+public class DeleteSearch {
 	private Scene scene;
 	private HBox top;
 	private GridPane grid;
@@ -35,14 +35,14 @@ public class ReportSearch {
 	private ObservableList<String> choices = FXCollections.observableArrayList();
 	private ComboBox<String> dropCombo;
 	
-	public ReportSearch(){
+	public DeleteSearch(){
 		root = new BorderPane();
 		
 		for(Team t: WCRScout.data.getArray()){
 			choices.add(t.getName() + "\t" + t.getNumber());
 		}
 		
-		lookup = new Label("Team Lookup");
+		lookup = new Label("Delete Team");
 		lookup.setFont(Font.font("Verdana", 70));
 		GridPane.setConstraints(lookup, 0, 0, 2, 1, HPos.CENTER, VPos.CENTER);
 		instruct = new Label("Enter team number/name:");
@@ -68,29 +68,24 @@ public class ReportSearch {
 		dropDownLab.setFont(Font.font("Verdana", 40));
 		GridPane.setConstraints(dropDownLab, 0, 2, 1, 1, HPos.CENTER, VPos.CENTER);
 		
-		search = new Button("Search");
+		search = new Button("Delete");
 		search.setFont(Font.font("Verdana", 40));
 		GridPane.setConstraints(search, 1, 3, 1, 1, HPos.CENTER, VPos.CENTER);
 		search.setOnAction(e -> {
 			if(dropCombo.getValue()==null){
 				try{
 					Team t = WCRScout.data.getTeam(Integer.parseInt(number.getText()));
-					Report r = new Report(t);
-					WCRScout.window.setScene(r.getScene());
-					number.clear();
+					WCRScout.data.remove(t.getNumber());
 				}catch(Exception o){
 					Team t = WCRScout.data.getTeam(number.getText());
-					Report r = new Report(t);
-					WCRScout.window.setScene(r.getScene());
-					number.clear();
+					WCRScout.data.remove(t.getNumber());
 				}
 			}
 			else{
 				Team t = WCRScout.data.getTeam(dropCombo.getValue().substring(0, dropCombo.getValue().indexOf(" ")));
-				Report r = new Report(t);
-				WCRScout.window.setScene(r.getScene());
-				number.clear();
+				WCRScout.data.remove(t.getNumber());
 			}
+			WCRScout.window.setScene(WCRScout.mainMenu.getScene());
 		});
 		
 		grid = new GridPane();
@@ -138,8 +133,7 @@ public class ReportSearch {
 			}
 			dropdown.setItems(choices);
 		}
-		else{
+		else
 			choices.clear();
-		}
 	}
 }

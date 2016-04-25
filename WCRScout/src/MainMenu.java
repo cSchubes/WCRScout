@@ -24,7 +24,7 @@ public class MainMenu{
 	private Menu edit;
 	
 	private Image logo;
-	private Button scoutSheet, fieldDraw, lookup;
+	private Button scoutSheet, fieldDraw, lookup, delete;
 	private GridPane grid;
 	
 	public MainMenu(){
@@ -58,10 +58,19 @@ public class MainMenu{
 		
 		lookup = new Button("Team Report");
 		lookup.setPrefSize(450, 200);
-		lookup. setFont(Font.font("Verdana", 40));
+		lookup. setFont(Font.font("Verdana", 50));
 		lookup.setOnAction(e -> {
 			WCRScout.reportSearch.update();
 			WCRScout.window.setScene(WCRScout.reportSearch.getScene());
+			WCRScout.window.centerOnScreen();
+		});
+		
+		delete = new Button("Delete Team");
+		delete.setPrefSize(450, 200);
+		delete. setFont(Font.font("Verdana", 50));
+		delete.setOnAction(e -> {
+			WCRScout.deleteSearch.update();
+			WCRScout.window.setScene(WCRScout.deleteSearch.getScene());
 			WCRScout.window.centerOnScreen();
 		});
 		
@@ -72,6 +81,7 @@ public class MainMenu{
 		grid.add(scoutSheet, 0, 0);
 		grid.add(fieldDraw, 1, 0);
 		grid.add(lookup, 0, 1);
+		grid.add(delete, 1, 1);
 		
 		mainLayout.setCenter(grid);
 		

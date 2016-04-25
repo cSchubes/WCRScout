@@ -18,6 +18,9 @@ public class Team {
 	public static final int SHOT_INDEX = 9;
 	public static final int CHALLENGE_INDEX = 10;
 	
+	public static final int DEFENSES_LENGTH = 13;
+	public static final int NOTES_LENGTH = 12;
+	
 	private String name;
 	private int number;
 	private boolean[] defenses;
