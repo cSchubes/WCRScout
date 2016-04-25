@@ -79,7 +79,6 @@ public class ReportSearch {
 			}
 			else{
 				Team t = WCRScout.data.getTeam(dropdown.getValue().substring(0, dropdown.getValue().indexOf(" ")));
-				System.out.println(dropdown.getValue());
 				Report r = new Report(t);
 				WCRScout.window.setScene(r.getScene());
 				number.clear();

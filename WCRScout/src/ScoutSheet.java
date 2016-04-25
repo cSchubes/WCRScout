@@ -36,15 +36,15 @@ public class ScoutSheet {
 	private GridPane grid, lowBarGrid, portGrid, chevalGrid, roughGrid, rampartGrid, moatGrid, drawGrid, sallyGrid, rockGrid, shotGrid, challengeGrid;
 	private BorderPane border;
 	private Label teamNumLab, teamNameLab, defenseLab, aLabel, bLabel, cLabel, dLabel, capabilities, shot, challenge, general;
-	//private TextField teamNumber, teamName;
 	private TextField[] textFields;
 	private ImageView lowBarView, portView, chevalView, roughView, rampartView, moatView, drawView, sallyView, rockView;
-	//private CheckBox lowBarCheck, portCheck, chevalCheck, roughCheck, rampartCheck, moatCheck, drawCheck, sallyCheck, rockCheck, highShotCheck, lowShotCheck, parkCheck, scaleCheck;
 	private CheckBox[] checkBoxes;
-	//private TextArea lowBarNotes, portNotes, chevalNotes, roughNotes, rampartNotes, moatNotes, drawNotes, sallyNotes, rockNotes, shotNotes, challengeNotes, generalNotes;
 	private TextArea[] textAreas;
 	private Button clear, save, backButton;
 	private Image backImage;
+	
+	private boolean editing;
+	private String oldName;
 	
 	static final int NUMBER_INDEX = 0;
 	static final int NAME_INDEX = 1;
@@ -80,6 +80,8 @@ public class ScoutSheet {
 		checkBoxes = new CheckBox[13];
 		textAreas = new TextArea[12];
 		
+		editing = false;
+		
 		teamNumLab = new Label("Team Number:");
 		teamNumLab.setFont(Font.font("Verdana", 30));
 		textFields[0] = new TextField();
@@ -101,6 +103,7 @@ public class ScoutSheet {
 		fillArr2[0] = fill2;
 		backButton.setBackground(new Background(fillArr2, backArr2));
 		backButton.setOnAction(e -> {
+			clear();
 			WCRScout.window.setScene(WCRScout.mainMenu.getScene());
 			WCRScout.window.centerOnScreen();
 		});
@@ -167,6 +170,7 @@ public class ScoutSheet {
 		GridPane.setConstraints(checkBoxes[LOWBAR_INDEX], 1, 0, 1, 1, HPos.CENTER, VPos.CENTER);
 		textAreas[LOWBAR_INDEX] = new TextArea();
 		textAreas[LOWBAR_INDEX].setPrefSize(0, 100);
+		textAreas[LOWBAR_INDEX].setWrapText(true);
 		GridPane.setConstraints(textAreas[LOWBAR_INDEX], 0, 1, 2, 2, HPos.CENTER, VPos.CENTER);
 		lowBarGrid.getChildren().addAll(checkBoxes[LOWBAR_INDEX], lowBarView, textAreas[LOWBAR_INDEX]);
 		GridPane.setConstraints(lowBarGrid, 1, 1, 2, 4, HPos.CENTER, VPos.CENTER);
@@ -366,9 +370,14 @@ public class ScoutSheet {
 		for (int i = 0; i < textAreas.length; i++){
 			textAreas[i].clear();
 		}
+		setEditing(false);
+		scroller.setVvalue(0);
 	}
 	
 	public void save(){
+		if(editing){
+			WCRScout.data.remove(oldName);
+		}
 		String name = textFields[NAME_INDEX].getText();
 		int number = Integer.parseInt(textFields[NUMBER_INDEX].getText());
 		boolean[] information = new boolean[13];
@@ -380,11 +389,27 @@ public class ScoutSheet {
 		for(int i = 0; i<notes.length; i++){
 			notes[i] = textAreas[i].getText();
 		}
-		
 		Team t = new Team(name, number, information, notes);
 		WCRScout.data.add(t);
 		clear();
 		WCRScout.window.setScene(WCRScout.mainMenu.getScene());
 		
+	}
+	
+	public void load(Team t){
+		textFields[NAME_INDEX].setText(t.getName());
+		oldName = t.getName();
+		textFields[NUMBER_INDEX].setText(t.getNumber() + "");
+		
+		for(int i = 0; i<checkBoxes.length; i++){
+			checkBoxes[i].setSelected(t.getDefense(i));
+		}
+		for(int i = 0; i<textAreas.length; i++){
+			textAreas[i].setText(t.getNotes(i));
+		}
+	}
+	
+	public void setEditing(boolean b){
+		editing = b;
 	}
 }

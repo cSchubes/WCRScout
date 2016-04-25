@@ -17,6 +17,9 @@
 .text-area{
 	-fx-font-size: 15px;
 }
+#generalReport{
+	-fx-font-size: 20px;
+}
 #defenseLabels {
 	-fx-text-fill: blue;
 }
@@ -27,11 +30,13 @@
 #yesLab{
 	-fx-background-color: green;
 	-fx-font-family: verdana;
-	-fx-font-size: 25px;
+	-fx-font-size: 35px;
+	-fx-text-fill: white;
 }
 #noLab{
 	-fx-background-color: red;
 	-fx-font-fanily: verdana;
-	-fx-font-size: 25px;
+	-fx-font-size: 35px;
+	-fx-text-fill: white;
 }
 
