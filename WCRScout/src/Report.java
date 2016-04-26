@@ -508,7 +508,7 @@ public class Report {
 		noteLabels[GENERAL_INDEX].setPrefSize(300, 600);
 		noteLabels[GENERAL_INDEX].setWrapText(true);
 		noteLabels[GENERAL_INDEX].setFont(Font.font("Verdana", 20));
-		noteLabels[GENERAL_INDEX].setAlignment(Pos.TOP_CENTER);
+		noteLabels[GENERAL_INDEX].setAlignment(Pos.TOP_CENTER); 
 		noteLabels[GENERAL_INDEX].setBorder(new Border(new BorderStroke(Color.MAROON, BorderStrokeStyle.SOLID, null, BorderStroke.THIN)));
 		GridPane.setConstraints(noteLabels[GENERAL_INDEX], 5, 10, 3, 2, HPos.CENTER, VPos.TOP);
 		

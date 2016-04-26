@@ -1,3 +1,5 @@
+import javax.swing.JOptionPane;
+
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -50,13 +52,13 @@ public class ScoutSheet {
 	static final int NAME_INDEX = 1;
 	static final int LOWBAR_INDEX = 0;
 	static final int PORTCULLIS_INDEX = 1;
+	static final int RAMPART_INDEX = 2;	
 	static final int CHEVAL_INDEX = 3;
-	static final int ROUGH_TERRAIN_INDEX = 8;
-	static final int RAMPART_INDEX = 2;
 	static final int MOAT_INDEX = 4;
 	static final int DRAWBRIDGE_INDEX = 5;
 	static final int SALLYPORT_INDEX = 6;
-	static final int ROCKWALL_INDEX = 7;
+	static final int ROCKWALL_INDEX = 7;	
+	static final int ROUGH_TERRAIN_INDEX = 8;
 	static final int LOW_SHOT_INDEX = 9;
 	static final int HIGH_SHOT_INDEX = 10;
 	static final int SHOT_INDEX = 9;
@@ -379,22 +381,50 @@ public class ScoutSheet {
 		if(editing){
 			WCRScout.data.remove(oldName);
 		}
+		boolean inUse = false;
 		String name = textFields[NAME_INDEX].getText();
 		int number = Integer.parseInt(textFields[NUMBER_INDEX].getText());
-		boolean[] information = new boolean[13];
-		String[] notes = new String[12];
-		
-		for(int i = 0; i<information.length; i++){
-			information[i] = checkBoxes[i].isSelected();
+		for(Team t:WCRScout.data.getArray()){
+			if(name.equals(t.getName())||number==t.getNumber())
+				inUse = true;
 		}
-		for(int i = 0; i<notes.length; i++){
-			notes[i] = textAreas[i].getText();
+		if(!inUse){
+			boolean[] information = new boolean[13];
+			String[] notes = new String[12];
+			
+			for(int i = 0; i<information.length; i++){
+				information[i] = checkBoxes[i].isSelected();
+			}
+			for(int i = 0; i<notes.length; i++){
+				notes[i] = textAreas[i].getText();
+			}
+			Team t = new Team(name, number, information, notes);
+			WCRScout.data.add(t);
+			clear();
+			WCRScout.window.setScene(WCRScout.mainMenu.getScene());
 		}
-		Team t = new Team(name, number, information, notes);
-		WCRScout.data.add(t);
-		clear();
-		WCRScout.window.setScene(WCRScout.mainMenu.getScene());
-		
+		else{
+			int answer = JOptionPane.showConfirmDialog(null, "Another team with the same number or name already exists.\nWould you like to overwrite?", "Duplicate", JOptionPane.YES_NO_OPTION);
+			if(answer==0){
+				boolean[] information = new boolean[13];
+				String[] notes = new String[12];
+				
+				for(int i = 0; i<information.length; i++){
+					information[i] = checkBoxes[i].isSelected();
+				}
+				for(int i = 0; i<notes.length; i++){
+					notes[i] = textAreas[i].getText();
+				}
+				WCRScout.data.remove(number);
+				Team t = new Team(name, number, information, notes);
+				WCRScout.data.add(t);
+				clear();
+				WCRScout.window.setScene(WCRScout.mainMenu.getScene());
+			}
+			else{
+				scroller.setVvalue(0);
+			}
+		}
 	}
 	
 	public void load(Team t){
