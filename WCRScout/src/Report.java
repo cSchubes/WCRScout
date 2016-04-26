@@ -153,7 +153,7 @@ public class Report {
 		GridPane.setConstraints(defenseLab, 1, 0, 4, 1, HPos.CENTER, VPos.CENTER);
 		GridPane.setConstraints(bLabel, 1, 9, 4, 1, HPos.CENTER, VPos.CENTER);
 		GridPane.setConstraints(cLabel, 1, 14, 4, 1, HPos.CENTER, VPos.CENTER);
-		GridPane.setConstraints(dLabel, 1, 19, 4, 1, HPos.CENTER, VPos.CENTER);
+		GridPane.setConstraints(dLabel, 1, 20, 4, 1, HPos.CENTER, VPos.CENTER);
 		
 		capabilities = new Label("Capablities");
 		capabilities.setFont(Font.font("Verdana", 40));
@@ -182,6 +182,7 @@ public class Report {
 		noteLabels[LOWBAR_INDEX].setWrapText(true);
 		noteLabels[LOWBAR_INDEX].setFont(Font.font("Verdana", 15));
 		noteLabels[LOWBAR_INDEX].setPrefWidth(300);
+		noteLabels[LOWBAR_INDEX].setPrefHeight(75);
 		noteLabels[LOWBAR_INDEX].setPadding(new Insets(10,0,0,0));
 		noteLabels[LOWBAR_INDEX].setAlignment(Pos.CENTER);
 		GridPane.setConstraints(noteLabels[LOWBAR_INDEX], 0, 1, 2, 2, HPos.CENTER, VPos.CENTER);
@@ -212,6 +213,7 @@ public class Report {
 		noteLabels[PORTCULLIS_INDEX].setWrapText(true);
 		noteLabels[PORTCULLIS_INDEX].setFont(Font.font("Verdana", 15));
 		noteLabels[PORTCULLIS_INDEX].setPrefWidth(300);
+		noteLabels[PORTCULLIS_INDEX].setPrefHeight(75);
 		noteLabels[PORTCULLIS_INDEX].setPadding(new Insets(10,0,0,0));
 		noteLabels[PORTCULLIS_INDEX].setAlignment(Pos.CENTER);
 		GridPane.setConstraints(noteLabels[PORTCULLIS_INDEX], 0, 1, 2, 2, HPos.LEFT, VPos.CENTER);
@@ -241,6 +243,7 @@ public class Report {
 		noteLabels[CHEVAL_INDEX].setWrapText(true);
 		noteLabels[CHEVAL_INDEX].setFont(Font.font("Verdana", 15));
 		noteLabels[CHEVAL_INDEX].setPrefWidth(300);
+		noteLabels[CHEVAL_INDEX].setPrefHeight(75);
 		noteLabels[CHEVAL_INDEX].setPadding(new Insets(10,0,0,0));
 		noteLabels[CHEVAL_INDEX].setAlignment(Pos.CENTER);
 		GridPane.setConstraints(noteLabels[CHEVAL_INDEX], 0, 1, 2, 2, HPos.LEFT, VPos.CENTER);
@@ -270,11 +273,12 @@ public class Report {
 		noteLabels[ROUGH_TERRAIN_INDEX].setWrapText(true);
 		noteLabels[ROUGH_TERRAIN_INDEX].setFont(Font.font("Verdana", 15));
 		noteLabels[ROUGH_TERRAIN_INDEX].setPrefWidth(300);
+		noteLabels[ROUGH_TERRAIN_INDEX].setPrefHeight(75);
 		noteLabels[ROUGH_TERRAIN_INDEX].setPadding(new Insets(10,0,0,0));
 		noteLabels[ROUGH_TERRAIN_INDEX].setAlignment(Pos.CENTER);
 		GridPane.setConstraints(noteLabels[ROUGH_TERRAIN_INDEX], 0, 2, 2, 2, HPos.LEFT, VPos.CENTER);
 		roughGrid.getChildren().addAll(roughView, infoLabels[ROUGH_TERRAIN_INDEX], noteLabels[ROUGH_TERRAIN_INDEX]);
-		GridPane.setConstraints(roughGrid, 2, 20, 2, 3, HPos.CENTER, VPos.CENTER);
+		GridPane.setConstraints(roughGrid, 2, 21, 2, 3, HPos.CENTER, VPos.CENTER);
 		roughGrid.setAlignment(Pos.CENTER);
 		
 		rampartGrid = new GridPane();
@@ -299,6 +303,7 @@ public class Report {
 		noteLabels[RAMPART_INDEX].setWrapText(true);
 		noteLabels[RAMPART_INDEX].setFont(Font.font("Verdana", 15));
 		noteLabels[RAMPART_INDEX].setPrefWidth(300);
+		noteLabels[RAMPART_INDEX].setPrefHeight(75);
 		noteLabels[RAMPART_INDEX].setPadding(new Insets(10,0,0,0));
 		noteLabels[RAMPART_INDEX].setAlignment(Pos.CENTER);
 		GridPane.setConstraints(noteLabels[RAMPART_INDEX], 0, 2, 2, 2, HPos.LEFT, VPos.CENTER);
@@ -328,6 +333,7 @@ public class Report {
 		noteLabels[MOAT_INDEX].setWrapText(true);
 		noteLabels[MOAT_INDEX].setFont(Font.font("Verdana", 15));
 		noteLabels[MOAT_INDEX].setPrefWidth(300);
+		noteLabels[MOAT_INDEX].setPrefHeight(75);
 		noteLabels[MOAT_INDEX].setPadding(new Insets(10,0,0,0));
 		noteLabels[MOAT_INDEX].setAlignment(Pos.CENTER);
 		GridPane.setConstraints(noteLabels[MOAT_INDEX], 0, 2, 2, 2, HPos.LEFT, VPos.CENTER);
@@ -357,11 +363,12 @@ public class Report {
 		noteLabels[DRAWBRIDGE_INDEX].setWrapText(true);
 		noteLabels[DRAWBRIDGE_INDEX].setFont(Font.font("Verdana", 15));
 		noteLabels[DRAWBRIDGE_INDEX].setPrefWidth(300);
+		noteLabels[DRAWBRIDGE_INDEX].setPrefHeight(75);
 		noteLabels[DRAWBRIDGE_INDEX].setPadding(new Insets(10,0,0,0));
 		noteLabels[DRAWBRIDGE_INDEX].setAlignment(Pos.CENTER);
 		GridPane.setConstraints(noteLabels[DRAWBRIDGE_INDEX], 0, 2, 2, 2, HPos.LEFT, VPos.CENTER);
 		drawGrid.getChildren().addAll(drawView, infoLabels[DRAWBRIDGE_INDEX], noteLabels[DRAWBRIDGE_INDEX]);
-		GridPane.setConstraints(drawGrid, 0, 15, 2, 3, HPos.CENTER, VPos.CENTER);
+		GridPane.setConstraints(drawGrid, 0, 15, 2, 4, HPos.CENTER, VPos.CENTER);
 		drawGrid.setAlignment(Pos.CENTER);
 		
 		sallyGrid = new GridPane();
@@ -386,11 +393,12 @@ public class Report {
 		noteLabels[SALLYPORT_INDEX].setWrapText(true);
 		noteLabels[SALLYPORT_INDEX].setFont(Font.font("Verdana", 15));
 		noteLabels[SALLYPORT_INDEX].setPrefWidth(300);
+		noteLabels[SALLYPORT_INDEX].setPrefHeight(75);
 		noteLabels[SALLYPORT_INDEX].setPadding(new Insets(10,0,0,0));
 		noteLabels[SALLYPORT_INDEX].setAlignment(Pos.CENTER);
 		GridPane.setConstraints(noteLabels[SALLYPORT_INDEX], 0, 2, 2, 2, HPos.LEFT, VPos.CENTER);
 		sallyGrid.getChildren().addAll(sallyView, infoLabels[SALLYPORT_INDEX], noteLabels[SALLYPORT_INDEX]);
-		GridPane.setConstraints(sallyGrid, 2, 15, 2, 3, HPos.CENTER, VPos.CENTER);
+		GridPane.setConstraints(sallyGrid, 2, 15, 2, 4, HPos.CENTER, VPos.CENTER);
 		sallyGrid.setAlignment(Pos.CENTER);
 		
 		rockGrid = new GridPane();
@@ -415,11 +423,12 @@ public class Report {
 		noteLabels[ROCKWALL_INDEX].setWrapText(true);
 		noteLabels[ROCKWALL_INDEX].setFont(Font.font("Verdana", 15));
 		noteLabels[ROCKWALL_INDEX].setPrefWidth(300);
+		noteLabels[ROCKWALL_INDEX].setPrefHeight(75);
 		noteLabels[ROCKWALL_INDEX].setPadding(new Insets(10,0,0,0));
 		noteLabels[ROCKWALL_INDEX].setAlignment(Pos.CENTER);
 		GridPane.setConstraints(noteLabels[ROCKWALL_INDEX], 0, 2, 2, 2, HPos.CENTER, VPos.CENTER);
 		rockGrid.getChildren().addAll(rockView, infoLabels[ROCKWALL_INDEX], noteLabels[ROCKWALL_INDEX]);
-		GridPane.setConstraints(rockGrid, 0, 20, 2, 3, HPos.CENTER, VPos.CENTER);
+		GridPane.setConstraints(rockGrid, 0, 21, 2, 3, HPos.CENTER, VPos.CENTER);
 		rockGrid.setAlignment(Pos.CENTER);
 		
 		shotGrid = new GridPane();
@@ -496,7 +505,7 @@ public class Report {
 		GridPane.setConstraints(general, 5, 9, 2, 1, HPos.CENTER, VPos.CENTER);
 		
 		noteLabels[GENERAL_INDEX] = new Label(team.getNotes(Team.GENERAL_NOTES_INDEX));
-		noteLabels[GENERAL_INDEX].setPrefSize(300, 500);
+		noteLabels[GENERAL_INDEX].setPrefSize(300, 600);
 		noteLabels[GENERAL_INDEX].setWrapText(true);
 		noteLabels[GENERAL_INDEX].setFont(Font.font("Verdana", 20));
 		noteLabels[GENERAL_INDEX].setAlignment(Pos.TOP_CENTER);

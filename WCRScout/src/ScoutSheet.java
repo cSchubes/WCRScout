@@ -245,7 +245,7 @@ public class ScoutSheet {
 		textAreas[DRAWBRIDGE_INDEX].setPrefSize(100, 100);
 		GridPane.setConstraints(textAreas[DRAWBRIDGE_INDEX], 0, 2, 2, 2, HPos.LEFT, VPos.CENTER);
 		drawGrid.getChildren().addAll(drawView, checkBoxes[DRAWBRIDGE_INDEX], textAreas[DRAWBRIDGE_INDEX]);
-		GridPane.setConstraints(drawGrid, 0, 15, 2, 3, HPos.CENTER, VPos.CENTER);
+		GridPane.setConstraints(drawGrid, 0, 15, 2, 4, HPos.CENTER, VPos.CENTER);
 		drawGrid.setAlignment(Pos.CENTER);
 		
 		sallyGrid = new GridPane();
@@ -257,7 +257,8 @@ public class ScoutSheet {
 		textAreas[SALLYPORT_INDEX].setPrefSize(100, 100);
 		GridPane.setConstraints(textAreas[SALLYPORT_INDEX], 0, 2, 2, 2, HPos.LEFT, VPos.CENTER);
 		sallyGrid.getChildren().addAll(sallyView, checkBoxes[SALLYPORT_INDEX], textAreas[SALLYPORT_INDEX]);
-		GridPane.setConstraints(sallyGrid, 2, 15, 2, 3, HPos.CENTER, VPos.CENTER);
+		GridPane.setConstraints(sallyGrid, 2, 15, 2, 4
+				, HPos.CENTER, VPos.CENTER);
 		sallyGrid.setAlignment(Pos.CENTER);
 		
 		rockGrid = new GridPane();
