@@ -17,7 +17,11 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -39,7 +43,7 @@ public class ReportSearch {
 		root = new BorderPane();
 		
 		for(Team t: WCRScout.data.getArray()){
-			choices.add(t.getName() + "\t" + t.getNumber());
+			choices.add(t.getNumber() + " " + t.getName());
 		}
 		
 		lookup = new Label("Team Lookup");
@@ -76,18 +80,21 @@ public class ReportSearch {
 				try{
 					Team t = WCRScout.data.getTeam(Integer.parseInt(number.getText()));
 					Report r = new Report(t);
+					WCRScout.blue.load(t.getNumber() + "");
 					WCRScout.window.setScene(r.getScene());
 					number.clear();
 				}catch(Exception o){
 					Team t = WCRScout.data.getTeam(number.getText());
 					Report r = new Report(t);
+					WCRScout.blue.load(t.getNumber() + "");
 					WCRScout.window.setScene(r.getScene());
 					number.clear();
 				}
 			}
 			else{
-				Team t = WCRScout.data.getTeam(dropCombo.getValue().substring(0, dropCombo.getValue().indexOf(" ")));
+				Team t = WCRScout.data.getTeam(Integer.parseInt(dropCombo.getValue().substring(0, dropCombo.getValue().indexOf(" "))));
 				Report r = new Report(t);
+				WCRScout.blue.load(t.getNumber() + "");
 				WCRScout.window.setScene(r.getScene());
 				number.clear();
 			}
@@ -121,6 +128,7 @@ public class ReportSearch {
 		root.setPadding(new Insets(20, 50, 50, 20));
 		root.setTop(top);
 		root.setCenter(grid);
+		root.setBorder(new Border(new BorderStroke(Color.MAROON, BorderStrokeStyle.SOLID, null, new BorderWidths(15))));
 		
 		scene = new Scene(root, 1280, 750);
 		scene.getStylesheets().add(WCRScout.class.getResource("/testC.css").toExternalForm());
@@ -133,8 +141,9 @@ public class ReportSearch {
 	public void update(){
 		if(!WCRScout.data.isEmpty()){
 			choices.clear();
+			WCRScout.data.numberSort();
 			for(Team t: WCRScout.data.getArray()){
-				choices.add(t.getName() + " " + t.getNumber());
+				choices.add(t.getNumber() + " " + t.getName());
 			}
 			dropdown.setItems(choices);
 		}

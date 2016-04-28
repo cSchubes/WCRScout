@@ -9,6 +9,7 @@ public class WCRScout extends Application{
 	public static ReportSearch reportSearch;
 	public static DeleteSearch deleteSearch;
 	public static Database data;
+	public static BlueAlliance blue;
 	
 	public static void main (String[] args){
 		launch();
@@ -26,6 +27,8 @@ public class WCRScout extends Application{
 		scoutSheet = new ScoutSheet();
 		data = new Database();
 		data.load();
+		blue = new BlueAlliance();
+		blue.reset();
 		deleteSearch = new DeleteSearch();
 		reportSearch = new ReportSearch();
 		window.setScene(mainMenu.getScene());

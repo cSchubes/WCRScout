@@ -1,5 +1,8 @@
 import javax.swing.JOptionPane;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -7,6 +10,7 @@ import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
@@ -14,6 +18,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BackgroundImage;
@@ -37,13 +42,22 @@ public class ScoutSheet {
 	private HBox top;
 	private GridPane grid, lowBarGrid, portGrid, chevalGrid, roughGrid, rampartGrid, moatGrid, drawGrid, sallyGrid, rockGrid, shotGrid, challengeGrid;
 	private BorderPane border;
-	private Label teamNumLab, teamNameLab, defenseLab, aLabel, bLabel, cLabel, dLabel, capabilities, shot, challenge, general;
+	private Label teamNumLab, teamNameLab, colorLab, defenseLab, aLabel, bLabel, cLabel, dLabel, capabilities, shot, challenge, general;
 	private TextField[] textFields;
 	private ImageView lowBarView, portView, chevalView, roughView, rampartView, moatView, drawView, sallyView, rockView;
 	private CheckBox[] checkBoxes;
 	private TextArea[] textAreas;
 	private Button clear, save, backButton;
 	private Image backImage;
+	private ComboBox<String> colorPicker;
+	
+	private ObservableList<String> choices = FXCollections.observableArrayList("Blue", "Orange", "Green", "Red", "Maroon", "Yellow");
+	final int BLUE_INDEX = 0;
+	final int ORANGE_INDEX = 1;
+	final int GREEN_INDEX = 2;
+	final int RED_INDEX = 3;
+	final int MAROON_INDEX = 4;
+	final int YELLOW_INDEX = 5;
 	
 	private boolean editing;
 	private String oldName;
@@ -84,11 +98,23 @@ public class ScoutSheet {
 		
 		editing = false;
 		
+		colorPicker = new ComboBox<String>();
+		colorPicker.setItems(choices);
+		colorPicker.setId("generalRep");
+		colorPicker.setPrefSize(200, 50);
+		GridPane.setConstraints(colorPicker, 3, 2, 1, 1, HPos.CENTER, VPos.CENTER);
+		
+		colorLab = new Label("Team Color");
+		colorLab.setId("defenseLabels");
+		colorLab.setFont(Font.font("Verdana", 20));
+		GridPane.setConstraints(colorLab, 2, 2, 1, 1, HPos.CENTER, VPos.CENTER);
+		
 		teamNumLab = new Label("Team Number:");
 		teamNumLab.setFont(Font.font("Verdana", 30));
 		textFields[0] = new TextField();
 		textFields[0].setFont(Font.font("Verdana", 30));
 		textFields[0].setPrefWidth(120);
+		textFields[0].getProperties().put("vkType", "numeric");
 		teamNameLab = new Label("Team Name:");
 		teamNameLab.setFont(Font.font("Verdana", 30));
 		textFields[1] = new TextField();
@@ -175,7 +201,7 @@ public class ScoutSheet {
 		textAreas[LOWBAR_INDEX].setWrapText(true);
 		GridPane.setConstraints(textAreas[LOWBAR_INDEX], 0, 1, 2, 2, HPos.CENTER, VPos.CENTER);
 		lowBarGrid.getChildren().addAll(checkBoxes[LOWBAR_INDEX], lowBarView, textAreas[LOWBAR_INDEX]);
-		GridPane.setConstraints(lowBarGrid, 1, 1, 2, 4, HPos.CENTER, VPos.CENTER);
+		GridPane.setConstraints(lowBarGrid, 0, 1, 2, 2, HPos.CENTER, VPos.CENTER);
 		lowBarGrid.setAlignment(Pos.CENTER_LEFT);
 		
 		portGrid = new GridPane();
@@ -321,9 +347,11 @@ public class ScoutSheet {
 		GridPane.setConstraints(textAreas[11], 5, 10, 3, 2, HPos.CENTER, VPos.CENTER);
 		
 		top = new HBox(10);
-		top.setPadding(new Insets(10, 0, 0, 0));
+		top.setPadding(new Insets(0, 0, 0, 0));
 		top.getChildren().addAll(backButton, teamNumLab, textFields[0], teamNameLab, textFields[1]);
 		top.setAlignment(Pos.CENTER);
+		top.setBorder(new Border(new BorderStroke(Color.WHITE, Color.WHITE, Color.BLACK, Color.WHITE, BorderStrokeStyle.NONE, BorderStrokeStyle.NONE, BorderStrokeStyle.DASHED, BorderStrokeStyle.NONE, null, BorderStroke.THICK, null)));
+		top.setPrefHeight(100);
 		
 		teamNumLab.setPadding(new Insets(0, 0, 0, 50));
 		teamNameLab.setPadding(new Insets(0, 0, 0, 50));
@@ -333,7 +361,7 @@ public class ScoutSheet {
 		grid.setVgap(10);
 		grid.setHgap(10);
 		grid.setAlignment(Pos.CENTER);
-		grid.getChildren().addAll(defenseLab, save, shotGrid, clear, general, textAreas[11], challengeGrid, capabilities, lowBarGrid, rockGrid, dLabel, moatGrid, aLabel, bLabel, cLabel, drawGrid, portGrid, chevalGrid, roughGrid, rampartGrid, sallyGrid);
+		grid.getChildren().addAll(defenseLab, colorPicker, colorLab, save, shotGrid, clear, general, textAreas[11], challengeGrid, capabilities, lowBarGrid, rockGrid, dLabel, moatGrid, aLabel, bLabel, cLabel, drawGrid, portGrid, chevalGrid, roughGrid, rampartGrid, sallyGrid);
 		border = new BorderPane();
 		//border.setPrefSize(1280, 800);
 		//Image back = new Image(getClass().getResourceAsStream("Complete Logo LOWQUALITY.png"));
@@ -345,7 +373,7 @@ public class ScoutSheet {
 		fillArr[0] = fill;
 		border.setMaxWidth(1280);
 		border.setBackground(new Background(fillArr));
-		border.setBorder(new Border(new BorderStroke(Color.MAROON, BorderStrokeStyle.SOLID, null, new BorderWidths(20))));
+		border.setBorder(new Border(new BorderStroke(Color.MAROON, BorderStrokeStyle.SOLID, null, new BorderWidths(15))));
 		border.setTop(top);
 		border.setCenter(grid);
 		scroller = new ScrollPane();
@@ -353,6 +381,13 @@ public class ScoutSheet {
 		scroller.setFitToHeight(true);
 		scroller.setFitToWidth(true);
 		scroller.setHbarPolicy(ScrollBarPolicy.NEVER);
+		scroller.setOnScroll(e -> {
+			double deltaY = e.getDeltaY()*5;
+			System.out.println(deltaY);
+			double height = scroller.getContent().getBoundsInLocal().getHeight();
+			double vValue = scroller.getVvalue();
+			scroller.setVvalue(vValue + -deltaY/height);
+		});
 		scene = new Scene(scroller, 1280, 750);
 		scene.getStylesheets().add(WCRScout.class.getResource("testC.css").toExternalForm());
 	}
@@ -375,6 +410,7 @@ public class ScoutSheet {
 		}
 		setEditing(false);
 		scroller.setVvalue(0);
+		colorPicker.setValue("");
 	}
 	
 	public void save(){
@@ -383,29 +419,18 @@ public class ScoutSheet {
 		}
 		boolean inUse = false;
 		String name = textFields[NAME_INDEX].getText();
-		int number = Integer.parseInt(textFields[NUMBER_INDEX].getText());
-		for(Team t:WCRScout.data.getArray()){
-			if(name.equals(t.getName())||number==t.getNumber())
-				inUse = true;
-		}
-		if(!inUse){
-			boolean[] information = new boolean[13];
-			String[] notes = new String[12];
-			
-			for(int i = 0; i<information.length; i++){
-				information[i] = checkBoxes[i].isSelected();
+		int number = 0;
+		String color = "";
+		if(colorPicker.getValue() != null)
+			color = colorPicker.getValue();
+		if(!textFields[NUMBER_INDEX].getText().equals(""))
+			number = Integer.parseInt(textFields[NUMBER_INDEX].getText());
+		if(!name.equals("")&&number!=0){
+			for(Team t:WCRScout.data.getArray()){
+				if(name.equals(t.getName())||number==t.getNumber())
+					inUse = true;
 			}
-			for(int i = 0; i<notes.length; i++){
-				notes[i] = textAreas[i].getText();
-			}
-			Team t = new Team(name, number, information, notes);
-			WCRScout.data.add(t);
-			clear();
-			WCRScout.window.setScene(WCRScout.mainMenu.getScene());
-		}
-		else{
-			int answer = JOptionPane.showConfirmDialog(null, "Another team with the same number or name already exists.\nWould you like to overwrite?", "Duplicate", JOptionPane.YES_NO_OPTION);
-			if(answer==0){
+			if(!inUse){
 				boolean[] information = new boolean[13];
 				String[] notes = new String[12];
 				
@@ -415,22 +440,67 @@ public class ScoutSheet {
 				for(int i = 0; i<notes.length; i++){
 					notes[i] = textAreas[i].getText();
 				}
-				WCRScout.data.remove(number);
-				Team t = new Team(name, number, information, notes);
+				Team t = new Team(name, number, information, notes, color);
 				WCRScout.data.add(t);
+				System.out.println(color);
 				clear();
 				WCRScout.window.setScene(WCRScout.mainMenu.getScene());
 			}
 			else{
-				scroller.setVvalue(0);
+				int answer = JOptionPane.showConfirmDialog(null, "Another team with the same number or name already exists.\nWould you like to overwrite?", "Duplicate", JOptionPane.YES_NO_OPTION);
+				if(answer==0){
+					boolean[] information = new boolean[13];
+					String[] notes = new String[12];
+					
+					for(int i = 0; i<information.length; i++){
+						information[i] = checkBoxes[i].isSelected();
+					}
+					for(int i = 0; i<notes.length; i++){
+						notes[i] = textAreas[i].getText();
+					}
+					WCRScout.data.remove(number);
+					Team t = new Team(name, number, information, notes, color);
+					WCRScout.data.add(t);
+					clear();
+					WCRScout.window.setScene(WCRScout.mainMenu.getScene());
+				}
+				else{
+					scroller.setVvalue(0);
+				}
 			}
 		}
+		else{
+			JOptionPane.showMessageDialog(null, "Please enter a team name and number before saving.", "Missing Info", JOptionPane.ERROR_MESSAGE);
+			scroller.setVvalue(0);
+		}
+			
 	}
 	
 	public void load(Team t){
 		textFields[NAME_INDEX].setText(t.getName());
 		oldName = t.getName();
 		textFields[NUMBER_INDEX].setText(t.getNumber() + "");
+		String co = t.getColor();
+		switch(co){
+			case "Blue":
+				colorPicker.getSelectionModel().select(BLUE_INDEX);
+				break;
+			case "Orange":
+				colorPicker.getSelectionModel().select(ORANGE_INDEX);
+				break;
+			case "Green":
+				colorPicker.getSelectionModel().select(GREEN_INDEX);
+				break;
+			case "Red":
+				colorPicker.getSelectionModel().select(RED_INDEX);
+				break;
+			case "Maroon":
+				colorPicker.getSelectionModel().select(MAROON_INDEX);
+				break;
+			case "Yellow":
+				colorPicker.getSelectionModel().select(YELLOW_INDEX);
+				break;
+		}
 		
 		for(int i = 0; i<checkBoxes.length; i++){
 			checkBoxes[i].setSelected(t.getDefense(i));

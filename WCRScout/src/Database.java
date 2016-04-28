@@ -52,6 +52,19 @@ public class Database {
 		return teams.size()==0;
 	}
 	
+	public void numberSort(){
+		for(int i = 0; i<teams.size()-1; i++){
+			int smallest = i;
+			for(int k = i+1; k<teams.size(); k++){
+				if(teams.get(k).compareTo(teams.get(smallest))<0)
+					smallest = k;
+			}
+			Team temp = teams.get(smallest);
+			teams.set(smallest, teams.get(i));
+			teams.set(i, temp);
+		}
+	}
+	
 	private void save(){
 		PrintWriter out = null;
 		try{
@@ -59,21 +72,20 @@ public class Database {
 		}catch(Exception e){
 			System.out.println("fak");
 		}
+		out.println(teams.size());
+		out.println();
 		for(Team t:teams){
-			out.print(t.getName());
-			out.print(" ");
-			out.print(t.getNumber());
-			out.print(" ");
+			out.println(t.getName());
+			out.println(t.getNumber());
+			out.println(t.getColor());
 			for(int i = 0; i<Team.DEFENSES_LENGTH; i++){
-				out.print(t.getDefense(i));
-				out.print(" ");
+				out.println(t.getDefense(i));
 			}
 			for(int i = 0; i<Team.NOTES_LENGTH; i++){
 				if(t.getNotes(i).equals(""))
-					out.print("!#$%");
+					out.println("!#$%");
 				else
-					out.print(t.getNotes(i));
-				out.print(" ");
+					out.println(t.getNotes(i));
 			}
 			out.println();
 		}
@@ -84,22 +96,28 @@ public class Database {
 		try{
 			File f = new File(System.getProperty("user.home")+"\\Scouting Data.txt");
 			Scanner in = new Scanner(f);
-			while(in.hasNextLine()){
-				String name = in.next();
+			int iterations = in.nextInt();
+			in.nextLine();
+			in.nextLine();
+			for(int i = 0; i<iterations; i++){
+				String name = in.nextLine();
 				int number = in.nextInt();
+				in.nextLine();
+				String color = in.nextLine();
 				boolean[] defenses = new boolean[Team.DEFENSES_LENGTH];
 				String[] notes = new String[Team.NOTES_LENGTH];
-				for(int i = 0; i<Team.DEFENSES_LENGTH; i++){
-					defenses[i] = Boolean.parseBoolean(in.next());
+				for(int j = 0; j<Team.DEFENSES_LENGTH; j++){
+					defenses[j] = Boolean.parseBoolean(in.nextLine());
 				}
-				for(int i = 0; i<Team.NOTES_LENGTH; i++){
-					String temp = in.next();
+				for(int j = 0; j<Team.NOTES_LENGTH; j++){
+					String temp = in.nextLine();
 					if(temp.equals("!#$%"))
-						notes[i] = "";
+						notes[j] = "";
 					else
-						notes[i] = temp;
+						notes[j] = temp;
 				}
-				teams.add(new Team(name, number, defenses, notes));
+				teams.add(new Team(name, number, defenses, notes, color));
+				in.nextLine();
 			}
 		}catch(Exception e){}
 	}

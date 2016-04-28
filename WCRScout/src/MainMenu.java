@@ -4,6 +4,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -22,6 +23,7 @@ public class MainMenu{
 	private MenuBar menuBar;
 	private Menu file;
 	private Menu edit;
+	private MenuItem blue;
 	
 	private Image logo;
 	private Button scoutSheet, fieldDraw, lookup, delete;
@@ -35,9 +37,17 @@ public class MainMenu{
 		
 		menuBar = new MenuBar();
 		menuBar.setBackground(new Background(new BackgroundFill(Color.MAROON, null, null)));
-		file = new Menu("File");
+		file = new Menu("Extras");
+		blue = new MenuItem("Blue Alliance");
+		blue.setOnAction(e -> {
+			WCRScout.blue.reset();
+			WCRScout.window.setScene(WCRScout.blue.getScene());
+			WCRScout.window.centerOnScreen();
+		});
+		blue.setId("extra");
+		file.getItems().addAll(blue);
 		edit = new Menu("Edit");
-		menuBar.getMenus().addAll(file, edit);
+		menuBar.getMenus().addAll(file);
 		mainLayout.setTop(menuBar);
 		
 		scoutSheet = new Button("New Scout Sheet");

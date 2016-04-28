@@ -39,7 +39,7 @@ public class DeleteSearch {
 		root = new BorderPane();
 		
 		for(Team t: WCRScout.data.getArray()){
-			choices.add(t.getName() + "\t" + t.getNumber());
+			choices.add(t.getNumber() + " " + t.getName());
 		}
 		
 		lookup = new Label("Delete Team");
@@ -128,8 +128,9 @@ public class DeleteSearch {
 	public void update(){
 		if(!WCRScout.data.isEmpty()){
 			choices.clear();
+			WCRScout.data.numberSort();
 			for(Team t: WCRScout.data.getArray()){
-				choices.add(t.getName() + " " + t.getNumber());
+				choices.add(t.getNumber() + " " + t.getName());
 			}
 			dropdown.setItems(choices);
 		}

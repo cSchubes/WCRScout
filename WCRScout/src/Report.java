@@ -1,16 +1,11 @@
-import javax.swing.GroupLayout.Alignment;
-
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -40,7 +35,7 @@ public class Report {
 	private ImageView lowBarView, portView, chevalView, roughView, rampartView, moatView, drawView, sallyView, rockView;
 	private Label[] infoLabels;
 	private Label[] noteLabels;
-	private Button backButton, another, edit;
+	private Button backButton, another, edit, blueAlliance;
 	private Image backImage;
 	
 	final int WIDTH = 150;
@@ -82,10 +77,49 @@ public class Report {
 		infoLabels = new Label[13];
 		noteLabels = new Label[12];
 		
+		String col = t.getColor();
+		
 		teamNumLab = new Label(team.getNumber() + "");
-		teamNumLab.setFont(Font.font("Verdana", 50));
+		teamNumLab.setFont(Font.font("Verdana", 60));
 		teamNameLab = new Label(team.getName());
-		teamNameLab.setFont(Font.font("Verdana", 50));
+		teamNameLab.setFont(Font.font("Verdana", 60));
+		switch(col){
+			case "Green":
+				teamNumLab.setId("greenheader");
+				teamNameLab.setId("greenheader");
+				break;
+			case "Orange":
+				teamNumLab.setId("orangeheader");
+				teamNameLab.setId("orangeheader");
+				break;
+			case "Blue":
+				teamNameLab.setId("blueheader");
+				teamNumLab.setId("blueheader");
+				break;
+			case "Red":
+				teamNumLab.setId("redheader");
+				teamNameLab.setId("redheader");
+				break;
+			case "Maroon":
+				teamNumLab.setId("maroonheader");
+				teamNameLab.setId("maroonheader");
+				break;
+			case "Yellow":
+				teamNumLab.setId("yellowheader");
+				teamNameLab.setId("yellowheader");
+				break; 
+		}
+		
+		blueAlliance = new Button("Blue Alliance");
+		blueAlliance.setFont(Font.font("Verdana", 25));
+		blueAlliance.setPrefSize(300,100);
+		blueAlliance.setAlignment(Pos.CENTER);
+		GridPane.setConstraints(blueAlliance, 5, 22, 2, 2, HPos.CENTER, VPos.CENTER);
+		blueAlliance.setOnAction(e -> {
+			WCRScout.window.setScene(WCRScout.blue.getScene());
+			WCRScout.window.centerOnScreen();
+		});
+		blueAlliance.setPadding(new Insets(0, 25, 0, 25));
 		
 		backButton = new Button();
 		backImage = new Image(getClass().getResourceAsStream("back arrow.png"));
@@ -97,15 +131,16 @@ public class Report {
 		fillArr2[0] = fill2;
 		backButton.setBackground(new Background(fillArr2, backArr2));
 		backButton.setOnAction(e -> {
+			WCRScout.blue.reset();
 			WCRScout.window.setScene(WCRScout.mainMenu.getScene());
 			WCRScout.window.centerOnScreen();
 		});
 		backButton.setPrefSize(50, 50);
 		
-		another = new Button("Lookup Team");
+		another = new Button("Lookup Other Team");
 		another.setFont(Font.font("Verdana", 25));
 		another.setPrefSize(300, 150);
-		GridPane.setConstraints(another, 5, 15, 2, 3, HPos.CENTER, VPos.CENTER);
+		GridPane.setConstraints(another, 5, 15, 2, 2, HPos.CENTER, VPos.CENTER);
 		another.setPadding(new Insets(0, 25, 0, 25));
 		another.setTextAlignment(TextAlignment.CENTER);
 		another.setAlignment(Pos.CENTER);
@@ -117,8 +152,8 @@ public class Report {
 		
 		edit = new Button("Edit");
 		edit.setFont(Font.font("Verdana", 25));
-		edit.setPrefSize(300, 150);
-		GridPane.setConstraints(edit, 5, 20, 2, 3, HPos.CENTER, VPos.CENTER);
+		edit.setPrefSize(300, 100);
+		GridPane.setConstraints(edit, 5, 20, 2, 2, HPos.CENTER, VPos.CENTER);
 		edit.setPadding(new Insets(0, 25, 0, 25));
 		edit.setTextAlignment(TextAlignment.CENTER);
 		edit.setAlignment(Pos.CENTER);
@@ -513,10 +548,11 @@ public class Report {
 		GridPane.setConstraints(noteLabels[GENERAL_INDEX], 5, 10, 3, 2, HPos.CENTER, VPos.TOP);
 		
 		top = new HBox(10);
-		top.setPadding(new Insets(10, 0, 0, 0));
+		top.setPadding(new Insets(0, 0, 0, 0));
 		top.getChildren().addAll(backButton, teamNumLab, teamNameLab);
 		top.setAlignment(Pos.CENTER);
-		
+		top.setBorder(new Border(new BorderStroke(Color.WHITE, Color.WHITE, Color.BLACK, Color.WHITE, BorderStrokeStyle.NONE, BorderStrokeStyle.NONE, BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE, null, BorderStroke.THICK, null)));
+		top.setPrefHeight(115);
 		teamNumLab.setPadding(new Insets(0, 0, 0, 50));
 		teamNameLab.setPadding(new Insets(0, 0, 0, 50));
 		
@@ -525,19 +561,35 @@ public class Report {
 		grid.setVgap(10);
 		grid.setHgap(10);
 		grid.setAlignment(Pos.CENTER);
-		grid.getChildren().addAll(defenseLab, shotGrid, edit, general, another, noteLabels[GENERAL_INDEX], challengeGrid, capabilities, lowBarGrid, rockGrid, dLabel, moatGrid, aLabel, bLabel, cLabel, drawGrid, portGrid, chevalGrid, roughGrid, rampartGrid, sallyGrid);
+		grid.getChildren().addAll(defenseLab, shotGrid, blueAlliance, edit, general, another, noteLabels[GENERAL_INDEX], challengeGrid, capabilities, lowBarGrid, rockGrid, dLabel, moatGrid, aLabel, bLabel, cLabel, drawGrid, portGrid, chevalGrid, roughGrid, rampartGrid, sallyGrid);
 		border = new BorderPane();
-		//border.setPrefSize(1280, 800);
-		//Image back = new Image(getClass().getResourceAsStream("Complete Logo LOWQUALITY.png"));
-		//BackgroundImage backImg = new BackgroundImage(back, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(247,82, false, false, true, false));
 		BackgroundFill fill = new BackgroundFill(Color.WHITE, null, null);
-		//BackgroundImage[] imgArr = new BackgroundImage[1];
 		BackgroundFill[] fillArr = new BackgroundFill[1];
-		//imgArr[0] = backImg;
 		fillArr[0] = fill;
 		border.setMaxWidth(1280);
 		border.setBackground(new Background(fillArr));
-		border.setBorder(new Border(new BorderStroke(Color.MAROON, BorderStrokeStyle.SOLID, null, new BorderWidths(20))));
+		Color c = null;
+		switch(t.getColor()){
+		case "Orange":
+			c = Color.ORANGE;
+			break;
+		case "Blue":
+			c = Color.BLUE;
+			break;
+		case "Green":
+			c = Color.GREEN;
+			break;
+		case "Yellow":
+			c = Color.YELLOW;
+			break;
+		case "Maroon":
+			c = Color.MAROON;
+			break;
+		case "Red":
+			c = Color.RED;
+			break;
+		}
+		border.setBorder(new Border(new BorderStroke(c, BorderStrokeStyle.SOLID, null, new BorderWidths(15))));
 		border.setTop(top);
 		border.setCenter(grid);
 		scroller = new ScrollPane();

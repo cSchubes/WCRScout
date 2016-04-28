@@ -1,5 +1,10 @@
 .menu .label{
 	-fx-text-fill: white;
+	-fx-font-size: 15px;
+}
+#extra .label{
+	-fx-text-fill: black;
+	-fx-font-size: 15px;
 }
 .choice-box{
 	-fx-font-size: 30px;
@@ -23,6 +28,9 @@
 #generalReport{
 	-fx-font-size: 20px;
 }
+#generalRep{
+	-fx-font-size: 25px;
+}
 #defenseLabels {
 	-fx-text-fill: blue;
 }
@@ -42,4 +50,33 @@
 	-fx-font-size: 35px;
 	-fx-text-fill: white;
 }
-
+#greenheader .text{
+	-fx-fill: green;
+	-fx-stroke: black;
+	-fx-stroke-width: 2;
+}
+#blueheader .text{
+	-fx-fill: blue;
+	-fx-stroke: black;
+	-fx-stroke-width: 2;
+}
+#redheader .text{
+	-fx-fill: red;
+	-fx-stroke: black;
+	-fx-stroke-width: 2;
+}
+#orangeheader .text{
+	-fx-fill: orange;
+	-fx-stroke: black;
+	-fx-stroke-width: 2;
+}
+#maroonheader .text{
+	-fx-fill: maroon;
+	-fx-stroke: black;
+	-fx-stroke-width: 2;
+}
+#yellowheader .text{
+	-fx-fill:yellow;
+	-fx-stroke: black;
+	-fx-stroke-width: 2;
+}

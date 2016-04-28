@@ -1,5 +1,5 @@
 
-public class Team {
+public class Team implements Comparable<Team>{
 	
 	public static final int LOWBAR_INDEX = 0;
 	public static final int PORTCULLIS_INDEX = 1;
@@ -23,10 +23,11 @@ public class Team {
 	
 	private String name;
 	private int number;
+	private String color;
 	private boolean[] defenses;
 	private String[] notes;
 	
-	public Team(String name, int number, boolean[] info, String[] words){
+	public Team(String name, int number, boolean[] info, String[] words, String color){
 		defenses = new boolean[13];
 		for(int i = 0; i<defenses.length; i++){
 			defenses[i] = info[i];
@@ -38,6 +39,7 @@ public class Team {
 		}
 		this.name = name;
 		this.number = number;
+		this.color = color;
 	}
 	
 	public String getName(){
@@ -54,5 +56,13 @@ public class Team {
 	
 	public String getNotes(int i){
 		return notes[i];
+	}
+	
+	public String getColor(){
+		return color;
+	}
+	
+	public int compareTo(Team t){
+		return number - t.number;
 	}
 }
